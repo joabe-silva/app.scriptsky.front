@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://scriptsky-back.herokuapp.com/api'
+    baseURL: 'http://10.0.0.105:3001/api'
 });
 
 export default api;

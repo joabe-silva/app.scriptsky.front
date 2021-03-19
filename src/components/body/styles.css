@@ -1,0 +1,22 @@
+.container {
+  margin-top: 70px;
+  margin-bottom: 70px;
+}
+.list {
+  width: 100%;
+  margin: 0;
+}
+.itens {
+  border-bottom-width: 1px;
+  border-style: 'solid';
+  border-color: #dcdcdc;
+}
+.imagem_space {
+  width: 70px;
+}
+.imagem_itens {
+  width: 100%;
+}
+.text {
+  margin-left: 20px;
+}
