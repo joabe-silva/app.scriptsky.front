@@ -1,4 +1,4 @@
-import Header from './components/header';
+import Header from './components/cliente/header';
 import Routes from './routes';
 
 function App() {

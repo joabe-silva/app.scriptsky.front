@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import api from '../../services/api';
+import { Link } from 'react-router-dom';
+import api from '../../../services/api';
 import './styles.css';
 import Container from '@material-ui/core/Container';
 import ListSubheader from '@material-ui/core/ListSubheader';
@@ -23,7 +24,7 @@ export default class Body extends Component {
   }
 
   loadItens = async () => {
-
+    
     const result = await api.get('/produtos');
     this.setState({ itens: result.data.rows });
     
@@ -50,16 +51,20 @@ export default class Body extends Component {
               {
                 itens.map(itens => (
 
-                  <ListItem button className="itens" key={ itens.cod_produto }>
-                      <ListItemIcon className="imagem_space">
-                          <img src={url_storage+itens.imagem.trim()+url_complet} alt={itens.titulo} className="imagem_itens" />
+                  <Link to={`/item/${ itens.cod_produto }`} style={{ textDecoration: 'none', color: 'black', }}>
+                    <ListItem button key={ itens.cod_produto } className="itens">
+
+                      <ListItemIcon className="imagemspc">
+                          <img src={ url_storage+itens.imagem.trim()+url_complet } alt={ itens.titulo } className="imagem" />
                       </ListItemIcon>
                       <ListItemText 
-                          className="text"
-                          primary={itens.titulo}
-                          secondary={itens.preco}
+                          className="titulo"
+                          primary={ itens.titulo }
+                          secondary={`R$ ${ itens.preco }`}
                       />
-                  </ListItem>
+
+                    </ListItem>
+                  </Link>
 
                 ))
               }

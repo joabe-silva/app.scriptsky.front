@@ -11,12 +11,16 @@
   border-style: 'solid';
   border-color: #dcdcdc;
 }
-.imagem_space {
+.imagemspc {
   width: 70px;
 }
-.imagem_itens {
+.imagem {
   width: 100%;
 }
-.text {
+.titulo {
   margin-left: 20px;
+}
+.link {
+  text-decoration: 'none';
+  color: '#2e3192',
 }

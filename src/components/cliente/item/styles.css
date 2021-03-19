@@ -1,0 +1,26 @@
+.container {
+    margin-top: 70px;
+    margin-bottom: 70px;
+  }
+  .list {
+    width: 100%;
+    margin: 0;
+  }
+  .itens {
+    border-bottom-width: 1px;
+    border-style: 'solid';
+    border-color: #dcdcdc;
+  }
+  .imagemspc {
+    width: 70px;
+  }
+  .imagem {
+    width: 100%;
+  }
+  .titulo {
+    margin-left: 20px;
+  }
+  .link {
+    text-decoration: 'none';
+    color: '#2e3192',
+  }
