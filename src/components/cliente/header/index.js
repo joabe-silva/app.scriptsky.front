@@ -10,9 +10,11 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCartRounded';
 import FastfoodIcon from '@material-ui/icons/FastfoodRounded';
+import Grupos from '../grupos';
 import Link from '@material-ui/core/Link';
 
 export default function Header() {
+
   const classes = styles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -122,9 +124,9 @@ export default function Header() {
               Scriptsky System
             </Link>
           </Typography>
-           
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+            <Grupos />
             <Link href="#" color="inherit" style={{ textDecoration: 'none' }}>
               <IconButton aria-label="Carrinho" color="inherit">
                 <ShoppingCartIcon />
@@ -147,6 +149,7 @@ export default function Header() {
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
+            <Grupos />
             <IconButton
               aria-label="show more"
               aria-controls={mobileMenuId}

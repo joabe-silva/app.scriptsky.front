@@ -14,7 +14,6 @@ export default class Body extends Component {
 
   state = {
     itens: [],
-    itensInfo: [],
   }
 
   async componentDidMount(){

@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Container maxWidth="sm" justify="center" className="container">
+      <Container maxWidth="sm" className="container">
         <Routes />
       </Container>
     </div>
