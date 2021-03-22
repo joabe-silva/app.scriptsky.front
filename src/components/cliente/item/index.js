@@ -23,6 +23,8 @@ export default class Item extends Component {
 
   state = {
     item: [], 
+    quantidade: 1,
+    valorUnitario: 0,
   };
 
   async componentDidMount(){
@@ -31,13 +33,29 @@ export default class Item extends Component {
 
     const response = await api.get(`/produto/${ cod_produto }`);
 
-    this.setState({ item: response.data[0] });
+    this.setState({ item: response.data[0], valorUnitario: response.data[0].preco });
 
+  }
+
+  adicionarItem = () => {
+    this.setState({ quantidade: this.state.quantidade + 1 });
+  }
+
+  removerItem = () => {
+    if(this.state.quantidade > 1){
+      this.setState({ quantidade: this.state.quantidade - 1 });
+    }
+  }
+
+  adicionarItemCarrinho = () => {
+    const quantidade = document.getElementById('quantidade').value;
+    const valorTotal = document.getElementById('valorTotal').value;
+    console.log(valorTotal+ ' - '+ quantidade)
   }
 
   render(){
 
-    const { item } = this.state;
+    const { item, quantidade, valorUnitario } = this.state;
   
     return (
       <div>
@@ -49,7 +67,6 @@ export default class Item extends Component {
         
         <Card className="card">
           <CardActionArea>
-
             <CardMedia>
               <img src={url_storage+item.imagem+url_complet} alt={ item.titulo } className="imagem" />
             </CardMedia>
@@ -61,12 +78,10 @@ export default class Item extends Component {
                 { item.descricao }
               </Typography>
             </CardContent>
-
           </CardActionArea>
           <CardActions>
-
             <Grid container spacing={2}>
-              <Grid item xs={12} className="actions">
+              <Grid item xs={12}>
                 <TextField
                   id="observacao"
                   label="Observação"
@@ -76,26 +91,25 @@ export default class Item extends Component {
                 />  
               </Grid>
               <Grid item xs={12} className="actions">
-                <Button size="small" color="primary" >
+                <Button size="small" color="primary" onClick={ this.removerItem }>
                   <Remove />
                 </Button>
-                <Button size="small" color="primary">
-                  { 1 }
+                <Button id="quantidade" size="small" value={quantidade}>
+                  { quantidade }
                 </Button>
-                <Button size="small" color="primary">
+                <Button size="small" color="primary" onClick={ this.adicionarItem }>
                   <Add />
                 </Button>
               </Grid>
               <Grid item xs={12} className="actions">
-                <Button size="small" color="primary">
+                <Button size="small" color="primary" onClick={ this.adicionarItemCarrinho }>
                   Adicionar
                 </Button>
-                <Button size="small" color="primary">
-                  R$ { item.preco }
+                <Button id="valorTotal" size="small" color="primary" value={ valorUnitario * quantidade }>
+                  R$ { valorUnitario * quantidade }
                 </Button>
               </Grid>
             </Grid>
-
           </CardActions>
         </Card>
       </div>

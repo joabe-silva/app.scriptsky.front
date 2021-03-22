@@ -23,7 +23,7 @@ export default class Grupos extends Component {
      this.setState({ open: true });
   }
 
-  closeGrupo = () =>{
+  closeGrupo = () => {
     this.setState({ open: false});
   }
   
@@ -34,7 +34,7 @@ export default class Grupos extends Component {
     return (
         <div>
           <IconButton
-            aria-controls="long-menu"
+            aria-controls="grupo-itens"
             aria-haspopup="true"
             color="inherit"
             onClick={this.openGrupo}
@@ -42,17 +42,22 @@ export default class Grupos extends Component {
             <FilterListIcon />
           </IconButton>
           <Menu
-            id="long-menu"
+            id="grupo-itens"
+            keepMounted
             open={open}
             onClose={this.closeGrupo}
+            PaperProps={{
+              style: {
+                maxHeight: 48 * 4.5,
+                width: '20ch',
+              },
+            }}
           >
-            {
-                grupos.map((grupos) => (
-                    <MenuItem key={grupos.cod_produto_grupo} onClick={this.closeGrupo}>
-                        {grupos.descricao}
-                    </MenuItem>
-                ))
-            }
+            {grupos.map(grupos => (
+              <MenuItem key={grupos.cod_produto_grupo} onClick={this.closeGrupo}>
+                {grupos.descricao}
+              </MenuItem>
+            ))}
           </Menu>
         </div>
       );
