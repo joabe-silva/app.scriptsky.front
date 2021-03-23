@@ -7,12 +7,12 @@ import Routes from './routes';
 function App() {
   return (
     <div className="App">
-      <Header />
-      <Container maxWidth="sm" className="container">
-        <ProviderCarrinho>
-          <Routes />
-        </ProviderCarrinho>
-      </Container>
+      <ProviderCarrinho>
+        <Header />
+        <Container maxWidth="sm" className="container">
+          <Routes /> 
+        </Container>
+      </ProviderCarrinho>
     </div>
   );
 }
