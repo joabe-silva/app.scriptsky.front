@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
 import styles from './styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,7 +14,12 @@ import FastfoodIcon from '@material-ui/icons/FastfoodRounded';
 import Grupos from '../grupos';
 import Link from '@material-ui/core/Link';
 
+import { ProviderCarrinho } from '../contextCarrinho';
+
 export default function Header() {
+
+  const teste = useContext(ProviderCarrinho);
+  console.log(teste)
 
   const classes = styles();
   const [anchorEl, setAnchorEl] = React.useState(null);

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import Card from '@material-ui/core/Card';
@@ -15,6 +15,7 @@ import ArrowBack from '@material-ui/icons/ArrowBackIosRounded';
 import TextField from '@material-ui/core/TextField';
 import api from '../../../services/api';
 import './styles.css';
+
 
 const url_storage = 'https://firebasestorage.googleapis.com/v0/b/app-scriptsky.appspot.com/o/';
 const url_complet = '?alt=media';
@@ -67,7 +68,7 @@ export default class Item extends Component {
   render(){
 
     const { item, quantidade, valorUnitario } = this.state;
-  
+
     return (
       <div>
         <Link to={'/'}>
