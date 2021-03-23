@@ -48,9 +48,20 @@ export default class Item extends Component {
   }
 
   adicionarItemCarrinho = () => {
+
+    const codigoProduto = this.state.item.cod_produto;
+    const valorUnitario = this.state.valorUnitario;
+    const observacao = document.getElementById('observacao').value;
     const quantidade = document.getElementById('quantidade').value;
     const valorTotal = document.getElementById('valorTotal').value;
-    console.log(valorTotal+ ' - '+ quantidade)
+    
+
+    console.log('Codigo Item: '+codigoProduto, 'Observacao: '+observacao, 'Quantidade: '+quantidade, 'Valor Unitario: '+valorUnitario, 'Valor Total: '+valorTotal)
+
+  }
+
+  removerItemCarrinho = () => {
+    console.log('item removido');
   }
 
   render(){
@@ -68,7 +79,7 @@ export default class Item extends Component {
         <Card className="card">
           <CardActionArea>
             <CardMedia>
-              <img src={url_storage+item.imagem+url_complet} alt={ item.titulo } className="imagem" />
+              <img src={ url_storage+item.imagem+url_complet } alt={ item.titulo } className="imagem" />
             </CardMedia>
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
