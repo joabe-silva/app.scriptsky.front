@@ -105,7 +105,7 @@ export default class Item extends Component {
                 <Button size="small" color="primary" onClick={ this.removerItem }>
                   <Remove />
                 </Button>
-                <Button id="quantidade" size="small" value={quantidade}>
+                <Button id="quantidade" size="small" color="primary" value={quantidade}>
                   { quantidade }
                 </Button>
                 <Button size="small" color="primary" onClick={ this.adicionarItem }>

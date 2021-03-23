@@ -7,18 +7,6 @@ const styles = makeStyles((theme) => ({
     menuButton: {
       marginRight: theme.spacing(2),
     },
-    sectionDesktop: {
-      display: 'none',
-      [theme.breakpoints.up('md')]: {
-        display: 'flex',
-      },
-    },
-    sectionMobile: {
-      display: 'flex',
-      [theme.breakpoints.up('md')]: {
-        display: 'none',
-      },
-    },
 }));
 
 export default styles;

@@ -47,20 +47,20 @@ export default function Header() {
       id={menuId}
       keepMounted
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
+      open={ isMenuOpen }
+      onClose={ handleMenuClose }
     >
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={ handleMenuClose }>
           <Typography color="primary" component="p">
             Entrar
           </Typography>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={ handleMenuClose }>
           <Typography color="primary" component="p">
             Minha Conta
           </Typography>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={ handleMenuClose }>
         <Typography color="primary" component="p">
           Sair
         </Typography>
@@ -71,13 +71,13 @@ export default function Header() {
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
-      anchorEl={mobileMoreAnchorEl}
+      anchorEl={ mobileMoreAnchorEl }
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={mobileMenuId}
+      id={ mobileMenuId }
       keepMounted
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
+      open={ isMobileMenuOpen }
+      onClose={ handleMobileMenuClose }
     >
       <Link href="#" color="inherit" style={{ textDecoration: 'none' }}>
         <MenuItem>
@@ -99,7 +99,7 @@ export default function Header() {
           </Typography>        
         </MenuItem>
       </Link>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem onClick={ handleProfileMenuOpen }>
         <IconButton
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
@@ -124,46 +124,22 @@ export default function Header() {
               Scriptsky System
             </Link>
           </Typography>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <Grupos />
-            <Link href="#" color="inherit" style={{ textDecoration: 'none' }}>
-              <IconButton aria-label="Carrinho" color="inherit">
-                <ShoppingCartIcon />
-              </IconButton>
-            </Link>
-            <Link href="#" color="inherit" style={{ textDecoration: 'none' }}>
-              <IconButton aria-label="Meus Pedidos" color="inherit">
-                <FastfoodIcon />
-              </IconButton>
-            </Link>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
-          <div className={classes.sectionMobile}>
-            <Grupos />
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </div>
+          <div className={ classes.grow } />
+          <Grupos />
+          <IconButton
+            aria-label="show more"
+            aria-controls={ mobileMenuId }
+            aria-haspopup="true"
+            onClick={ handleMobileMenuOpen }
+            color="inherit"
+          >
+            <MoreIcon />
+          </IconButton>
+          
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
+      { renderMobileMenu }
+      { renderMenu }
     </div>
   );
 }

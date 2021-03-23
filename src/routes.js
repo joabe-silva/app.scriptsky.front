@@ -1,7 +1,7 @@
 import React from 'react';
 import Main from './components/cliente/main';
 import Item from './components/cliente/item';
-import Carrinho from './components/cliente/carrinho';
+import Carrinho from './components/cliente/main';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
 const Routes = () => (
