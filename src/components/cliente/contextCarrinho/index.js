@@ -1,15 +1,18 @@
+import React from 'react';
 import { createContext } from 'react';
 
-export const ContextCarrinho = createContext({
+export const ContextCarrinho = createContext({});
 
-});
+export const ProviderCarrinho = (props) => {
 
-export const ProviderCarrinho = ({ children }) => {
-    const teste = 'Teste OK';
+    const item = {
+        titulo: 'Bolo teste'
+    }
 
     return(
-        <ContextCarrinho.Provider value={{ teste }}>
-            { children }
+        <ContextCarrinho.Provider value={{ item }}>
+            { props.children }
         </ContextCarrinho.Provider>
     )
+
 }

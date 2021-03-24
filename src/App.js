@@ -7,8 +7,8 @@ import Routes from './routes';
 function App() {
   return (
     <div className="App">
+      <Header />
       <ProviderCarrinho>
-        <Header />
         <Container maxWidth="sm" className="container">
           <Routes /> 
         </Container>
