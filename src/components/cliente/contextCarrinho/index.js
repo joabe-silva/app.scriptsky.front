@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createContext } from 'react';
 
 export const ContextCarrinho = createContext({});
 
 export const ProviderCarrinho = (props) => {
 
-    const item = {
-        titulo: 'Bolo teste'
-    }
+    const [item, setItem] = useState({
+        titulo: 'Bolo Chocolate'
+    })
 
     return(
-        <ContextCarrinho.Provider value={{ item }}>
+        <ContextCarrinho.Provider value={{ item, setItem }}>
             { props.children }
         </ContextCarrinho.Provider>
     )
