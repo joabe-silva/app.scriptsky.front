@@ -29,7 +29,14 @@ export default class Carrinho extends Component {
   }
 
   removerItemCarrinho = (cod_produto) => {
-    console.log(cod_produto)
+
+    const itensLocalStorage = localStorage.getItem('CarrinhoScriptsky')
+    console.log(itensLocalStorage)
+    const indice_item = itensLocalStorage.indexOf(cod_produto)
+
+    itensLocalStorage.splice(3);
+    console.log(indice_item)
+    
   }
 
   render(){
