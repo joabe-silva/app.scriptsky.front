@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
-import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -23,20 +22,32 @@ export default class Carrinho extends Component {
   }
 
   async componentDidMount(){
-
     this.setState({ itens: JSON.parse(localStorage.getItem('CarrinhoScriptsky')) });
-
   }
 
   removerItemCarrinho = (cod_produto) => {
 
-    const itensLocalStorage = localStorage.getItem('CarrinhoScriptsky')
-    console.log(itensLocalStorage)
-    const indice_item = itensLocalStorage.indexOf(cod_produto)
+    const { itens } = this.state;
+    let contItens = itens.length
+    let indice = 0
+    let array = [] 
 
-    itensLocalStorage.splice(3);
-    console.log(indice_item)
+    array = itens
     
+    for (indice; indice < contItens; indice++) {
+      if(array[indice].cod_produto === cod_produto){
+
+        array.splice(indice, 1);
+        this.setState({ itens: array })
+        
+        localStorage.removeItem('CarrinhoScriptsky')
+        localStorage.setItem('CarrinhoScriptsky', JSON.stringify(array))
+
+        break
+        
+      }
+    }
+
   }
 
   render(){
@@ -46,33 +57,30 @@ export default class Carrinho extends Component {
     return (
       
       <div>
-          <Grid container spacing={3}>
-            <Grid item xs={3}>
-              <Link to={'/'}>
-                <Fab size="small" color="primary" aria-label="add">
-                  <ArrowBack />
-                </Fab>
-              </Link>
-            </Grid>
-            <Grid item xs={9}>
-              <Typography color="primary" variant="h4" component="h2">
-                Carrinho
-              </Typography>
-            </Grid>
-          </Grid>
+                
+          <div className="grid">
+            <Link to={'/'}>
+              <Fab size="small" color="primary" aria-label="add">
+                <ArrowBack />
+              </Fab>
+            </Link>
+            <Typography color="primary" variant="h4" component="h2">
+              Carrinho
+            </Typography>
+          </div>
 
           <List className="list">
             {
               itens.map(itens => (
 
-                <ListItem button className="itens">
+                <ListItem button key={ itens.cod_produto } className="itens">
                   <ListItemIcon className="imagemspc">
                     <img src={`${ url_storage }${ itens.imagem }${ url_complet }`} alt={ itens.titulo } className="imagem" />
                   </ListItemIcon>
                   <ListItemText 
                     className="titulo"
                     primary={ itens.titulo }
-                    secondary={`Qtd ${ itens.quantidade } Unid R$ ${ itens.preco } Total R$ ${ itens.valor_total }`}
+                    secondary={`Quantidade ${ itens.quantidade } Preço R$ ${ itens.preco } Total R$ ${ itens.valor_total }`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete" onClick={() => this.removerItemCarrinho(itens.cod_produto) }>

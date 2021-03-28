@@ -16,6 +16,8 @@
 .titulo {
   margin-left: 20px;
 }
-.carrinho {
-  margin-left: 60%;
+.grid {
+  display: flex;
 }
+
+
