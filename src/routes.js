@@ -1,8 +1,9 @@
 import React from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Main from './components/cliente/main';
 import Item from './components/cliente/item';
-import Carrinho from './components/cliente/testeProvider';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Carrinho from './components/cliente/carrinho';
+
 
 const Routes = () => (
     <BrowserRouter>

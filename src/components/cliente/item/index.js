@@ -49,19 +49,33 @@ export default class Item extends Component {
 
   adicionarItemCarrinho = () => {
 
-    const codigoProduto = this.state.item.cod_produto;
-    const valorUnitario = this.state.valorUnitario;
-    const observacao = document.getElementById('observacao').value;
-    const quantidade = document.getElementById('quantidade').value;
-    const valorTotal = document.getElementById('valorTotal').value;
+    let itens = [];
+
+    let item = {
+      codProduto: this.state.item.cod_produto,
+      valorUnitario: this.state.valorUnitario,
+      observacao: document.getElementById('observacao').value,
+      quantidade: document.getElementById('quantidade').value,
+      valorTotal: document.getElementById('valorTotal').value,
+    }
+
+    itens = item
+    //Verifica se já existe itens no LocalStorage
+    if(localStorage.getItem('CarrinhoScriptsky')) {
+     
+      localStorage.setItem(
+        'CarrinhoScriptsky',
+        JSON.stringify([
+          ...JSON.parse(localStorage.getItem('CarrinhoScriptsky')),
+          itens
+        ])
+      );
+      
+
+    } else {
+      localStorage.setItem('CarrinhoScriptsky', JSON.stringify([itens]))
+    }
     
-
-    console.log('Codigo Item: '+codigoProduto, 'Observacao: '+observacao, 'Quantidade: '+quantidade, 'Valor Unitario: '+valorUnitario, 'Valor Total: '+valorTotal)
-
-  }
-
-  removerItemCarrinho = () => {
-    console.log('item removido');
   }
 
   render(){
