@@ -79,7 +79,7 @@ export default function Header() {
       open={ isMobileMenuOpen }
       onClose={ handleMobileMenuClose }
     >
-      <Link href="#" color="inherit" style={{ textDecoration: 'none' }}>
+      <Link href="/carrinho" color="inherit" style={{ textDecoration: 'none' }}>
         <MenuItem>
           <IconButton aria-label="Instagram" color="inherit">
             <ShoppingCartIcon color="primary" />

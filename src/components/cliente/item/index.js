@@ -52,15 +52,17 @@ export default class Item extends Component {
     let itens = [];
 
     let item = {
-      codProduto: this.state.item.cod_produto,
-      valorUnitario: this.state.valorUnitario,
+      cod_produto: this.state.item.cod_produto,
+      imagem: this.state.item.imagem,
+      titulo: this.state.item.titulo,
+      preco: this.state.valorUnitario,
       observacao: document.getElementById('observacao').value,
       quantidade: document.getElementById('quantidade').value,
-      valorTotal: document.getElementById('valorTotal').value,
+      valor_total: document.getElementById('valorTotal').value,
     }
 
     itens = item
-    //Verifica se já existe itens no LocalStorage
+    
     if(localStorage.getItem('CarrinhoScriptsky')) {
      
       localStorage.setItem(
