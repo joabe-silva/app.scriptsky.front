@@ -5,11 +5,13 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ArrowBack from '@material-ui/icons/ArrowBackIosRounded';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
 import './styles.css';
 
 const url_storage = 'https://firebasestorage.googleapis.com/v0/b/app-scriptsky.appspot.com/o/';
@@ -20,6 +22,11 @@ export default class Carrinho extends Component {
   state = {
     itens: [],
     mensagem: '',
+    display: 'none',
+  }
+
+  theme = {
+    spacing: 8,
   }
 
   async componentDidMount(){
@@ -27,7 +34,7 @@ export default class Carrinho extends Component {
     const itens = JSON.parse(localStorage.getItem('CarrinhoScriptsky'))
     
     if(itens.length !== 0) {
-      this.setState({ itens: itens });
+      this.setState({ itens: itens, display: '' });
     } else {
       this.setState({ mensagem: 'Você ainda não possui itens em seu carrinho...' });
     }
@@ -61,7 +68,7 @@ export default class Carrinho extends Component {
 
   render(){
 
-    const { itens, mensagem } = this.state;
+    const { itens, mensagem, display } = this.state;
 
     return (
       
@@ -78,7 +85,7 @@ export default class Carrinho extends Component {
             </Typography>
           </div>
 
-          <List className="list">
+          <List className="list-itens">
             {
               itens.map(itens => (
 
@@ -89,7 +96,7 @@ export default class Carrinho extends Component {
                   <ListItemText 
                     className="titulo"
                     primary={ itens.titulo }
-                    secondary={`Quantidade ${ itens.quantidade } Preço R$ ${ itens.preco } Total R$ ${ itens.valor_total }`}
+                    secondary={`${ itens.quantidade }X Total R$ ${ itens.valor_total }`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete" onClick={() => this.removerItemCarrinho(itens.cod_produto) }>
@@ -105,6 +112,23 @@ export default class Carrinho extends Component {
           <Typography color="primary" variant="h6" component="h2">
             { mensagem }
           </Typography>
+
+          <div className="margin-top-itens" style={{ display: display }}>
+            <Divider />
+
+            <Typography color="primary" variant="h6" component="h2">
+              Taxa de entrega: R$ { 0 }
+            </Typography>
+
+            <Typography color="primary" variant="h6" component="h2">
+              Total: R$ { 0 }
+            </Typography>
+
+            <Button variant="contained" color="primary" fullWidth>
+              Continuar
+            </Button>
+          </div>
+          
       </div>
     
     )
