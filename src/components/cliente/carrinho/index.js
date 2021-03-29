@@ -19,10 +19,19 @@ export default class Carrinho extends Component {
 
   state = {
     itens: [],
+    mensagem: '',
   }
 
   async componentDidMount(){
-    this.setState({ itens: JSON.parse(localStorage.getItem('CarrinhoScriptsky')) });
+
+    const itens = JSON.parse(localStorage.getItem('CarrinhoScriptsky'))
+    
+    if(itens.length !== 0) {
+      this.setState({ itens: itens });
+    } else {
+      this.setState({ mensagem: 'Você ainda não possui itens em seu carrinho...' });
+    }
+    
   }
 
   removerItemCarrinho = (cod_produto) => {
@@ -52,7 +61,7 @@ export default class Carrinho extends Component {
 
   render(){
 
-    const { itens } = this.state;
+    const { itens, mensagem } = this.state;
 
     return (
       
@@ -92,6 +101,10 @@ export default class Carrinho extends Component {
               ))
             }
           </List>
+
+          <Typography color="primary" variant="h6" component="h2">
+            { mensagem }
+          </Typography>
       </div>
     
     )
