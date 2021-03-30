@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import List from '@material-ui/core/List';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -23,20 +24,26 @@ export default class Carrinho extends Component {
     itens: [],
     mensagem: '',
     display: 'none',
+    frete: 10.00,
+    total: 0,
   }
 
-  theme = {
-    spacing: 8,
-  }
-
-  async componentDidMount(){
+  componentDidMount(){
 
     const itens = JSON.parse(localStorage.getItem('CarrinhoScriptsky'))
-    
+    //Verificar se existe itens no carrinho no LocalStorage 
     if(itens.length !== 0) {
-      this.setState({ itens: itens, display: '' });
+
+      let totalItens = 0
+      //Soma valor total de todos os itens 
+      itens.map(itens => (
+        totalItens = parseFloat(totalItens) + parseFloat(itens.valor_total) + parseFloat(this.state.frete)
+      ))
+      //Insere valor total no state
+      this.setState({ itens: itens, total: totalItens, display: '' });
+      
     } else {
-      this.setState({ mensagem: 'Você ainda não possui itens em seu carrinho...' });
+      this.setState({ mensagem: 'Você ainda não possui itens em seu carrinho...', display: 'none' });
     }
     
   }
@@ -44,22 +51,26 @@ export default class Carrinho extends Component {
   removerItemCarrinho = (cod_produto) => {
 
     const { itens } = this.state;
-    let contItens = itens.length
     let indice = 0
     let array = [] 
 
     array = itens
     
-    for (indice; indice < contItens; indice++) {
+    /*
+      Criamos um novo array com base nos valores do array itens, 
+      para removermos somente os itens que serao excluidos desse novo array.
+    */
+    for (indice; indice < itens.length; indice++) {
       if(array[indice].cod_produto === cod_produto){
 
         array.splice(indice, 1);
         this.setState({ itens: array })
         
+        //Carregamos o novo array no LocalStorage
         localStorage.removeItem('CarrinhoScriptsky')
         localStorage.setItem('CarrinhoScriptsky', JSON.stringify(array))
-
-        break
+        //Chamamos o componentDidMount para atualizar o state
+        this.componentDidMount()
         
       }
     }
@@ -68,43 +79,46 @@ export default class Carrinho extends Component {
 
   render(){
 
-    const { itens, mensagem, display } = this.state;
+    const { itens, mensagem, display, frete, total } = this.state;
 
     return (
       
-      <div>
-                
-          <div className="grid">
-            <Link to={'/'}>
-              <Fab size="small" color="primary" aria-label="add">
-                <ArrowBack />
-              </Fab>
-            </Link>
-            <Typography color="primary" variant="h4" component="h2">
-              Carrinho
-            </Typography>
-          </div>
-
-          <List className="list-itens">
+      <div>      
+          <Link to={'/'}>
+            <Fab size="small" color="primary" aria-label="add">
+              <ArrowBack />
+            </Fab>
+          </Link>
+            
+          <List className="list-itens"
+            component="nav"
+            aria-labelledby="list-subheader"
+            subheader={
+              <ListSubheader component="div" id="list-subheader">
+                Itens do Carrinho
+              </ListSubheader>
+            }
+          >
             {
               itens.map(itens => (
-
-                <ListItem button key={ itens.cod_produto } className="itens">
-                  <ListItemIcon className="imagemspc">
-                    <img src={`${ url_storage }${ itens.imagem }${ url_complet }`} alt={ itens.titulo } className="imagem" />
-                  </ListItemIcon>
-                  <ListItemText 
-                    className="titulo"
-                    primary={ itens.titulo }
-                    secondary={`${ itens.quantidade }X Total R$ ${ itens.valor_total }`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete" onClick={() => this.removerItemCarrinho(itens.cod_produto) }>
-                      <DeleteIcon color="primary" />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-               </ListItem>
-            
+                <div>
+                  <ListItem button key={ itens.cod_produto } className="itens">
+                    <ListItemIcon className="imagemspc">
+                      <img src={`${ url_storage }${ itens.imagem }${ url_complet }`} alt={ itens.titulo } className="imagem" />
+                    </ListItemIcon>
+                    <ListItemText 
+                      className="titulo"
+                      primary={ itens.titulo }
+                      secondary={`${ itens.quantidade }X Total R$ ${ itens.valor_total }`}
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton edge="end" aria-label="delete" onClick={() => this.removerItemCarrinho(itens.cod_produto) }>
+                        <DeleteIcon color="primary" />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  <Divider/>
+                </div>
               ))
             }
           </List>
@@ -113,22 +127,19 @@ export default class Carrinho extends Component {
             { mensagem }
           </Typography>
 
-          <div className="margin-top-itens" style={{ display: display }}>
-            <Divider />
-
-            <Typography color="primary" variant="h6" component="h2">
-              Taxa de entrega: R$ { 0 }
+          <div style={{ display: display }} className="margin-top-itens">
+            <Typography color="primary" variant="h6" >
+              Taxa de entrega: R$ { frete }
             </Typography>
 
-            <Typography color="primary" variant="h6" component="h2">
-              Total: R$ { 0 }
+            <Typography color="primary" variant="h6" >
+              Total: R$ { total }
             </Typography>
-
-            <Button variant="contained" color="primary" fullWidth>
-              Continuar
+            <br/>
+            <Button fullWidth variant="contained" color="primary">
+              Finalizar Pedido
             </Button>
           </div>
-          
       </div>
     
     )
