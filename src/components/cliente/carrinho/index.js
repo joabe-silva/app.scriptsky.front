@@ -31,17 +31,21 @@ export default class Carrinho extends Component {
   componentDidMount(){
 
     const itens = JSON.parse(localStorage.getItem('CarrinhoScriptsky'))
-    //Verificar se existe itens no carrinho no LocalStorage 
-    if(itens.length !== 0) {
+    //Verificar se existe itens no carrinho no LocalStorage
+    if(itens !== null) {
+      if(itens.length !== 0) {
 
-      let totalItens = 0
-      //Soma valor total de todos os itens 
-      itens.map(itens => (
-        totalItens = parseFloat(totalItens) + parseFloat(itens.valor_total) + parseFloat(this.state.frete)
-      ))
-      //Insere valor total no state
-      this.setState({ itens: itens, total: totalItens, display: '' });
-      
+        let totalItens = 0
+        //Soma valor total de todos os itens 
+        itens.map(itens => (
+          totalItens = parseFloat(totalItens) + parseFloat(itens.valor_total) + parseFloat(this.state.frete)
+        ))
+        //Insere valor total no state
+        this.setState({ itens: itens, total: totalItens, display: '' });
+        
+      } else {
+        this.setState({ mensagem: 'Você ainda não possui itens em seu carrinho...', display: 'none' });
+      }
     } else {
       this.setState({ mensagem: 'Você ainda não possui itens em seu carrinho...', display: 'none' });
     }
