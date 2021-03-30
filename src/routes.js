@@ -4,7 +4,6 @@ import Main from './components/cliente/main';
 import Item from './components/cliente/item';
 import Carrinho from './components/cliente/carrinho';
 
-
 const Routes = () => (
     <BrowserRouter>
         <Switch>

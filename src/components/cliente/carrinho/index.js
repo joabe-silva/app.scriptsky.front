@@ -15,8 +15,11 @@ import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import './styles.css';
-
 
 const url_storage = 'https://firebasestorage.googleapis.com/v0/b/app-scriptsky.appspot.com/o/';
 const url_complet = '?alt=media';
@@ -25,9 +28,10 @@ export default class Carrinho extends Component {
 
   state = {
     itens: [],
+    formasPagamento: [],
     mensagem: '',
     display: '',
-    retiradaLocal: 0,
+    retiradaLocal: false,
     frete: 10.00,
     total: 0,
   }
@@ -87,11 +91,11 @@ export default class Carrinho extends Component {
 
   retiradaLocal = () => {
 
-    if(this.state.retiradaLocal === 0) {
-      this.setState({ retiradaLocal: 1, frete: 0, total: this.state.total - 10 }) 
+    if(this.state.retiradaLocal === true) {
+      this.setState({ retiradaLocal: false, frete: 10, total: this.state.total + 10 }) 
     } 
-    if(this.state.retiradaLocal === 1) { 
-      this.setState({ retiradaLocal: 0, frete: 10, total: this.state.total + 10 }) 
+    if(this.state.retiradaLocal === false) { 
+      this.setState({ retiradaLocal: true, frete: 0, total: this.state.total - 10 }) 
     }
      
   }
@@ -120,8 +124,8 @@ export default class Carrinho extends Component {
           >
             {
               itens.map(itens => (
-                <div>
-                  <ListItem button key={ itens.cod_produto } className="itens">
+                <div key={ itens.cod_produto }>
+                  <ListItem button className="itens">
                     <ListItemIcon className="imagemspc">
                       <img src={`${ url_storage }${ itens.imagem }${ url_complet }`} alt={ itens.titulo } className="imagem" />
                     </ListItemIcon>
@@ -165,10 +169,28 @@ export default class Carrinho extends Component {
             <Typography color="primary" variant="h6" >
               Total: R$ { total }
             </Typography>
+              
             <br/>
+            <FormControl fullWidth>
+              <InputLabel id="forma-pagamento">Forma de pagamento</InputLabel>
+              <Select
+                labelId="forma-pagamento"
+                id="forma-pagamento"
+                value={1}
+                onChange={0}
+              >
+                <MenuItem value={1}>A Vista</MenuItem>
+                <MenuItem value={2}>Cartão de Crédito - Crédito</MenuItem>
+                <MenuItem value={3}>Cartão de Crédito - Débito</MenuItem>
+              </Select>
+            </FormControl>
+            <br/>
+            <br/>
+            
             <Button fullWidth variant="contained" color="primary">
-              Continuar 
+              Finalizar Pedido
             </Button>
+            
           </div>
       </div>
     
