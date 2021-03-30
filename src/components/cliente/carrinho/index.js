@@ -7,13 +7,16 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ArrowBack from '@material-ui/icons/ArrowBackIosRounded';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
+import Switch from '@material-ui/core/Switch';
+import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import './styles.css';
+
 
 const url_storage = 'https://firebasestorage.googleapis.com/v0/b/app-scriptsky.appspot.com/o/';
 const url_complet = '?alt=media';
@@ -23,7 +26,8 @@ export default class Carrinho extends Component {
   state = {
     itens: [],
     mensagem: '',
-    display: 'none',
+    display: '',
+    retiradaLocal: 0,
     frete: 10.00,
     total: 0,
   }
@@ -38,10 +42,10 @@ export default class Carrinho extends Component {
         let totalItens = 0
         //Soma valor total de todos os itens 
         itens.map(itens => (
-          totalItens = parseFloat(totalItens) + parseFloat(itens.valor_total) + parseFloat(this.state.frete)
+          totalItens = parseFloat(totalItens) + parseFloat(itens.valor_total) 
         ))
-        //Insere valor total no state
-        this.setState({ itens: itens, total: totalItens, display: '' });
+        //Insere valor total + valor do frete no state
+        this.setState({ itens: itens, total: totalItens + parseFloat(this.state.frete) });
         
       } else {
         this.setState({ mensagem: 'Você ainda não possui itens em seu carrinho...', display: 'none' });
@@ -81,9 +85,20 @@ export default class Carrinho extends Component {
 
   }
 
+  retiradaLocal = () => {
+
+    if(this.state.retiradaLocal === 0) {
+      this.setState({ retiradaLocal: 1, frete: 0, total: this.state.total - 10 }) 
+    } 
+    if(this.state.retiradaLocal === 1) { 
+      this.setState({ retiradaLocal: 0, frete: 10, total: this.state.total + 10 }) 
+    }
+     
+  }
+
   render(){
 
-    const { itens, mensagem, display, frete, total } = this.state;
+    const { itens, mensagem, display, retiradaLocal, frete, total } = this.state;
 
     return (
       
@@ -132,6 +147,17 @@ export default class Carrinho extends Component {
           </Typography>
 
           <div style={{ display: display }} className="margin-top-itens">
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={ retiradaLocal }
+                  onChange={ this.retiradaLocal }
+                  color="primary"
+                />
+              }
+              label="Retirada no local"
+            />
+          
             <Typography color="primary" variant="h6" >
               Taxa de entrega: R$ { frete }
             </Typography>
@@ -141,7 +167,7 @@ export default class Carrinho extends Component {
             </Typography>
             <br/>
             <Button fullWidth variant="contained" color="primary">
-              Finalizar Pedido
+              Continuar 
             </Button>
           </div>
       </div>
