@@ -139,7 +139,15 @@ export default class Carrinho extends Component {
       this.setState({ itens: [], display: 'none', alerta: <AlertSuccess /> })
 
     } else {
-      this.setState({ alerta: <AlertErro /> })
+      
+      if(this.state.alerta === '') {
+        this.setState({ alerta: <AlertErro /> })
+      }else{
+        if(this.state.alerta !== '') {
+          this.setState({ alerta: '' })
+        }
+      }
+
     }
 
   }
