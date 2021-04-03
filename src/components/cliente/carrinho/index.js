@@ -19,6 +19,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import AlertSuccess from '../alert-success'
+import AlertErro from '../alert-erro'
+import api from '../../../services/api'
 import './styles.css';
 
 const url_storage = 'https://firebasestorage.googleapis.com/v0/b/app-scriptsky.appspot.com/o/';
@@ -29,17 +32,35 @@ export default class Carrinho extends Component {
   state = {
     itens: [],
     formasPagamento: [],
+    alerta: '',
     mensagem: '',
     display: '',
     retiradaLocal: false,
-    frete: 10.00,
+    pagamento: 1,
+    pedidoMinimo: 0,
+    frete: 0,
     total: 0,
   }
 
   componentDidMount(){
 
-    const itens = JSON.parse(localStorage.getItem('CarrinhoScriptsky'))
+    this.parametros()
+    this.carrinho()
+    this.formasPagamento()
+    
+  }
+
+  async parametros() {
+
+    const parametros = await api.get('/parametro');
+    this.setState({ frete: parametros.data[0].frete, pedidoMinimo: parametros.data[0].pedido_minimo_loja });
+  
+  }
+
+  async carrinho() {
+
     //Verificar se existe itens no carrinho no LocalStorage
+    const itens = JSON.parse(localStorage.getItem('CarrinhoScriptsky'))
     if(itens !== null) {
       if(itens.length !== 0) {
 
@@ -57,21 +78,30 @@ export default class Carrinho extends Component {
     } else {
       this.setState({ mensagem: 'Você ainda não possui itens em seu carrinho...', display: 'none' });
     }
-    
+
   }
+
+  async formasPagamento() {
+
+    const formasPagamento = await api.get('/parametro-formas-pagamento');
+    this.setState({ formasPagamento: formasPagamento.data });
+  
+  }
+
+  setFormaPagamento = (event) => {
+
+    this.setState({ pagamento: event.target.value });
+
+  };
 
   removerItemCarrinho = (cod_produto) => {
 
     const { itens } = this.state;
     let indice = 0
     let array = [] 
-
     array = itens
-    
-    /*
-      Criamos um novo array com base nos valores do array itens, 
-      para removermos somente os itens que serao excluidos desse novo array.
-    */
+
+    //Criamos um novo array com base nos valores do array itens, para removermos somente os itens que serao excluidos desse novo array.
     for (indice; indice < itens.length; indice++) {
       if(array[indice].cod_produto === cod_produto){
 
@@ -91,18 +121,36 @@ export default class Carrinho extends Component {
 
   retiradaLocal = () => {
 
+    const parametros = api.get('/parametro');
+
     if(this.state.retiradaLocal === true) {
-      this.setState({ retiradaLocal: false, frete: 10, total: this.state.total + 10 }) 
+      //this.setState({ retiradaLocal: false, frete: parametros.data[0].frete, total: this.state.total + parametros.data[0].frete }) 
     } 
     if(this.state.retiradaLocal === false) { 
-      this.setState({ retiradaLocal: true, frete: 0, total: this.state.total - 10 }) 
+      if(this.state.total <= this.state.frete) {
+        console.log('é menor e igual ao frete')
+      } else {
+        //this.setState({ retiradaLocal: true, frete: 0, total: this.state.total - parametros.data[0].frete })
+      }
     }
      
   }
 
+  finalizarPedido = () => {
+    if(this.state.total >= this.state.pedidoMinimo) {
+      
+      localStorage.removeItem('CarrinhoScriptsky')
+      this.componentDidMount()
+      this.setState({ alerta: <AlertSuccess /> })
+    } else {
+      
+      this.setState({ alerta: <AlertErro /> })
+    }
+  }
+
   render(){
 
-    const { itens, mensagem, display, retiradaLocal, frete, total } = this.state;
+    const { itens, alerta, mensagem, display, retiradaLocal, formasPagamento, pagamento, frete, total } = this.state;
 
     return (
       
@@ -162,35 +210,34 @@ export default class Carrinho extends Component {
               label="Retirada no local"
             />
           
-            <Typography color="primary" variant="h6" >
-              Taxa de entrega: R$ { frete }
-            </Typography>
-
-            <Typography color="primary" variant="h6" >
-              Total: R$ { total }
-            </Typography>
-              
+            <Typography variant="h6" > Taxa de entrega: R$ { frete } </Typography>
+            <Typography variant="h6" > Total: R$ { total } </Typography>
+            
             <br/>
             <FormControl fullWidth>
-              <InputLabel id="forma-pagamento">Forma de pagamento</InputLabel>
+              <InputLabel>Forma de pagamento</InputLabel>
               <Select
-                labelId="forma-pagamento"
-                id="forma-pagamento"
-                value={1}
-                onChange={0}
+                value={ pagamento }
+                onChange={ this.setFormaPagamento }
               >
-                <MenuItem value={1}>A Vista</MenuItem>
-                <MenuItem value={2}>Cartão de Crédito - Crédito</MenuItem>
-                <MenuItem value={3}>Cartão de Crédito - Débito</MenuItem>
+              {
+                formasPagamento.map(formasPagamento => (
+                  <MenuItem value={ formasPagamento.cod_parametro_forma_pagamento } key={ formasPagamento.cod_parametro_forma_pagamento }>
+                    { formasPagamento.descricao }
+                  </MenuItem>
+                ))
+              }
               </Select>
             </FormControl>
             <br/>
             <br/>
-            
-            <Button fullWidth variant="contained" color="primary">
+
+            <Button fullWidth variant="contained" color="primary" onClick={ this.finalizarPedido }>
               Finalizar Pedido
             </Button>
-            
+          </div>
+          <div>
+            { alerta }
           </div>
       </div>
     
