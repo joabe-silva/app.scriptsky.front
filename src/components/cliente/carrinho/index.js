@@ -32,6 +32,7 @@ export default class Carrinho extends Component {
   state = {
     itens: [],
     formasPagamento: [],
+    parametros: [],
     alerta: '',
     mensagem: '',
     display: '',
@@ -44,21 +45,16 @@ export default class Carrinho extends Component {
 
   componentDidMount(){
 
-    this.parametros()
     this.carrinho()
     this.formasPagamento()
     
   }
 
-  async parametros() {
-
-    const parametros = await api.get('/parametro');
-    this.setState({ frete: parametros.data[0].frete, pedidoMinimo: parametros.data[0].pedido_minimo_loja });
-  
-  }
-
   async carrinho() {
 
+    const parametros = await api.get('/parametro');
+    this.setState({ frete: parametros.data[0].frete, parametros: parametros.data[0], pedidoMinimo: parametros.data[0].pedido_minimo_loja });
+    
     //Verificar se existe itens no carrinho no LocalStorage
     const itens = JSON.parse(localStorage.getItem('CarrinhoScriptsky'))
     if(itens !== null) {
@@ -71,7 +67,7 @@ export default class Carrinho extends Component {
         ))
         //Insere valor total + valor do frete no state
         this.setState({ itens: itens, total: totalItens + parseFloat(this.state.frete) });
-        
+       
       } else {
         this.setState({ mensagem: 'Você ainda não possui itens em seu carrinho...', display: 'none' });
       }
@@ -121,31 +117,31 @@ export default class Carrinho extends Component {
 
   retiradaLocal = () => {
 
-    const parametros = api.get('/parametro');
-
     if(this.state.retiradaLocal === true) {
-      //this.setState({ retiradaLocal: false, frete: parametros.data[0].frete, total: this.state.total + parametros.data[0].frete }) 
+      this.setState({ retiradaLocal: false, frete: this.state.parametros.frete, total: this.state.total + this.state.parametros.frete }) 
     } 
     if(this.state.retiradaLocal === false) { 
       if(this.state.total <= this.state.frete) {
-        console.log('é menor e igual ao frete')
+        this.setState({ retiradaLocal: true, frete: 0})
       } else {
-        //this.setState({ retiradaLocal: true, frete: 0, total: this.state.total - parametros.data[0].frete })
+        this.setState({ retiradaLocal: true, frete: 0, total: this.state.total - this.state.parametros.frete })
       }
     }
      
   }
 
   finalizarPedido = () => {
+
     if(this.state.total >= this.state.pedidoMinimo) {
       
       localStorage.removeItem('CarrinhoScriptsky')
-      this.componentDidMount()
-      this.setState({ alerta: <AlertSuccess /> })
+      this.carrinho()
+      this.setState({ itens: [], display: 'none', alerta: <AlertSuccess /> })
+
     } else {
-      
       this.setState({ alerta: <AlertErro /> })
     }
+
   }
 
   render(){
