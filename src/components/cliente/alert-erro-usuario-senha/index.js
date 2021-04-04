@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AlertaErro() {
+export default function AlertaErroUsuarioSenha() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
 
@@ -32,7 +32,7 @@ export default function AlertaErro() {
     <div className={classes.root}>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="warning">
-          Pedido não alcançou o valor minimo!
+          Usuário e senha incorreto!
         </Alert>
       </Snackbar>
     </div>

@@ -19,8 +19,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import AlertSuccess from '../alert-success'
-import AlertErro from '../alert-erro'
+import AlertSuccessPedidoMinino from '../alert-success-pedido-minino'
+import AlertErroPedidoMinino from '../alert-erro-pedido-minimo'
 import api from '../../../services/api'
 import './styles.css';
 
@@ -131,24 +131,38 @@ export default class Carrinho extends Component {
   }
 
   finalizarPedido = () => {
-
+    /*
+    api.post('/agendar-apresentacao', 
+    {
+      nomeCliente, 
+      nomeEmpresa, 
+      tipoEmpresa, 
+      emailCliente, 
+      contatoCliente
+    }).then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    */
+    
     if(this.state.total >= this.state.pedidoMinimo) {
       
       localStorage.removeItem('CarrinhoScriptsky')
       this.carrinho()
-      this.setState({ itens: [], display: 'none', alerta: <AlertSuccess /> })
+      this.setState({ itens: [], display: 'none', alerta: <AlertSuccessPedidoMinino /> })
 
     } else {
-      
       if(this.state.alerta === '') {
-        this.setState({ alerta: <AlertErro /> })
-      }else{
+        this.setState({ alerta: <AlertErroPedidoMinino /> })
+      } else {
         if(this.state.alerta !== '') {
           this.setState({ alerta: '' })
         }
       }
-
     }
+    
 
   }
 

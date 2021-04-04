@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AlertSuccess() {
+export default function AlertaErroSenha() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
 
@@ -31,8 +31,8 @@ export default function AlertSuccess() {
   return (
     <div className={classes.root}>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
-          Pedido criado com sucesso!
+        <Alert onClose={handleClose} severity="warning">
+          Senha incorreta!
         </Alert>
       </Snackbar>
     </div>
