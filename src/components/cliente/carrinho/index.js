@@ -22,6 +22,7 @@ import Select from '@material-ui/core/Select';
 import AlertSuccessPedidoMinino from '../alert-success-pedido-minino'
 import AlertErroPedidoMinino from '../alert-erro-pedido-minimo'
 import api from '../../../services/api'
+import jwt from 'jwt-decode';
 import './styles.css';
 
 const url_storage = 'https://firebasestorage.googleapis.com/v0/b/app-scriptsky.appspot.com/o/';
@@ -149,9 +150,42 @@ export default class Carrinho extends Component {
     
     if(this.state.total >= this.state.pedidoMinimo) {
       
+      if(localStorage.getItem('tokenScriptsky') === null) {
+        window.location.replace('/login')
+      } else {
+        api.interceptors.request.use(
+          config => {
+              config.headers['x-access-token'] = localStorage.getItem('tokenScriptsky');
+              return config;
+          },
+          error => {
+              return Promise.reject(error);
+          }
+        );
+        const token = jwt(localStorage.getItem('tokenScriptsky'))
+        const pedido = {
+          cod_entidade: 1, 
+          valor_total: 10.50, 
+          desconto: 0.00, 
+          valor_liquido: 10.50, 
+          troco: 0.00, 
+          cod_parametro_forma_pagamento: 1,
+          situacao: 0
+        }
+
+        api.post('/criar-pedido', pedido).then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
+      /*
       localStorage.removeItem('CarrinhoScriptsky')
       this.carrinho()
       this.setState({ itens: [], display: 'none', alerta: <AlertSuccessPedidoMinino /> })
+      */
+        
 
     } else {
       if(this.state.alerta === '') {
