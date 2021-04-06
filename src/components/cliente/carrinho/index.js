@@ -132,27 +132,14 @@ export default class Carrinho extends Component {
   }
 
   finalizarPedido = () => {
-    /*
-    api.post('/agendar-apresentacao', 
-    {
-      nomeCliente, 
-      nomeEmpresa, 
-      tipoEmpresa, 
-      emailCliente, 
-      contatoCliente
-    }).then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-    */
-    
+  
+    //Verifica se o valor total do pedido é maior ou igual ao pedido minimo da aplicacao
     if(this.state.total >= this.state.pedidoMinimo) {
-      
+      //Verifica se o usuario esta logado
       if(localStorage.getItem('tokenScriptsky') === null) {
         window.location.replace('/login')
       } else {
+        //Configura token no cabecalho da requisicao
         api.interceptors.request.use(
           config => {
               config.headers['x-access-token'] = localStorage.getItem('tokenScriptsky');
@@ -162,25 +149,62 @@ export default class Carrinho extends Component {
               return Promise.reject(error);
           }
         );
-        const token = jwt(localStorage.getItem('tokenScriptsky'))
+        //Configura o objeto pedido
         const pedido = {
-          cod_entidade: 1, 
-          valor_total: 10.50, 
+          cod_entidade: jwt(localStorage.getItem('tokenScriptsky')).cod_entidade, 
+          valor_total: this.state.total, 
           desconto: 0.00, 
-          valor_liquido: 10.50, 
+          valor_liquido: this.state.total, 
           troco: 0.00, 
-          cod_parametro_forma_pagamento: 1,
+          cod_parametro_forma_pagamento: this.state.formasPagamento,
           situacao: 0
         }
+        //Envia objeto pedido junto com token para a rota criar-pedido
+        api.post('/criar-pedido', pedido).then(function (res) {
 
-        api.post('/criar-pedido', pedido).then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
+          const cod_pedido = res.data.rows[0].cod_pedido
+          console.log('cod_pedido: '+cod_pedido)
+          const itens = JSON.parse(localStorage.getItem('CarrinhoScriptsky'))
+
+          let item = {
+            cod_pedido: cod_pedido, 
+            cod_produto: 0, 
+            preco: 0, 
+            desconto: 0, 
+            quantidade: 0, 
+            valor_total: 0, 
+            valor_liquido: 0, 
+            observacao:""
+          }
+
+          itens.forEach(itens => {
+
+            item = {
+              cod_pedido: cod_pedido, 
+              cod_produto: itens.cod_produto, 
+              preco: itens.preco, 
+              desconto: 0, 
+              quantidade: itens.quantidade, 
+              valor_total: itens.valor_total, 
+              valor_liquido: itens.valor_total, 
+              observacao: itens.observacao
+            }
+
+            api.post('/criar-pedido-item', item).then(function (res) {
+              console.log(res.data)
+            }).catch(function (error) {
+              console.log(error)
+            });
+
+          });
+
+        }).catch(function (error) {
           console.log(error);
         });
+        
       }
       /*
+      //Deleta todos os itens do carrinho 
       localStorage.removeItem('CarrinhoScriptsky')
       this.carrinho()
       this.setState({ itens: [], display: 'none', alerta: <AlertSuccessPedidoMinino /> })
