@@ -150,37 +150,30 @@ export default class Carrinho extends Component {
           }
         );
         //Configura o objeto pedido
+        const { cod_entidade } = jwt(localStorage.getItem('tokenScriptsky'))
+        
         const pedido = {
-          cod_entidade: jwt(localStorage.getItem('tokenScriptsky')).cod_entidade, 
+          cod_entidade: cod_entidade, 
           valor_total: this.state.total, 
-          desconto: 0.00, 
+          desconto: 0, 
           valor_liquido: this.state.total, 
-          troco: 0.00, 
-          cod_parametro_forma_pagamento: this.state.formasPagamento,
+          troco: 0, 
+          cod_parametro_forma_pagamento: this.state.pagamento,
           situacao: 0
         }
-        //Envia objeto pedido junto com token para a rota criar-pedido
+        //Insere pedido na base de dados
         api.post('/criar-pedido', pedido).then(function (res) {
 
-          const cod_pedido = res.data.rows[0].cod_pedido
-          console.log('cod_pedido: '+cod_pedido)
+          const { currval } = res.data[1].rows[0]
+
           const itens = JSON.parse(localStorage.getItem('CarrinhoScriptsky'))
 
-          let item = {
-            cod_pedido: cod_pedido, 
-            cod_produto: 0, 
-            preco: 0, 
-            desconto: 0, 
-            quantidade: 0, 
-            valor_total: 0, 
-            valor_liquido: 0, 
-            observacao:""
-          }
+          let item = {}
 
           itens.forEach(itens => {
 
             item = {
-              cod_pedido: cod_pedido, 
+              cod_pedido: currval, 
               cod_produto: itens.cod_produto, 
               preco: itens.preco, 
               desconto: 0, 
@@ -190,6 +183,7 @@ export default class Carrinho extends Component {
               observacao: itens.observacao
             }
 
+            //Insere itens na base de dados
             api.post('/criar-pedido-item', item).then(function (res) {
               console.log(res.data)
             }).catch(function (error) {
@@ -204,7 +198,7 @@ export default class Carrinho extends Component {
         
       }
       /*
-      //Deleta todos os itens do carrinho 
+      //Remove todos os itens do carrinho 
       localStorage.removeItem('CarrinhoScriptsky')
       this.carrinho()
       this.setState({ itens: [], display: 'none', alerta: <AlertSuccessPedidoMinino /> })
