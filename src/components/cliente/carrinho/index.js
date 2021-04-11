@@ -132,10 +132,12 @@ export default class Carrinho extends Component {
   }
 
   limpaCarrinho = () => {
+
     //Remove todos os itens do carrinho 
     localStorage.removeItem('CarrinhoScriptsky')
     this.carrinho()
     this.setState({ itens: [], display: 'none', alerta: <AlertSuccessPedidoMinino /> })
+    
   }
 
   finalizarPedido = () => {

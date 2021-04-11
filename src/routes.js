@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Main from './components/cliente/main';
 import Item from './components/cliente/item';
 import Carrinho from './components/cliente/carrinho';
+import MeusPedidos from './components/cliente/meus-pedidos';
 import Login from './components/cliente/login';
 
 const Routes = () => (
@@ -11,6 +12,7 @@ const Routes = () => (
             <Route exact path="/" component={ Main } />
             <Route path="/item/:cod_produto" component={ Item } />
             <Route path="/carrinho" component={ Carrinho } />
+            <Route path="/meus-pedidos" component={ MeusPedidos } />
             <Route path="/login" component={ Login } />
         </Switch>
     </BrowserRouter>

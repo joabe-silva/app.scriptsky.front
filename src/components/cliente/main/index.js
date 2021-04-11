@@ -11,7 +11,7 @@ import './styles.css';
 const url_storage = 'https://firebasestorage.googleapis.com/v0/b/app-scriptsky.appspot.com/o/';
 const url_complet = '?alt=media';
 
-export default class Body extends Component {
+export default class Main extends Component {
 
   state = {
     itens: [],

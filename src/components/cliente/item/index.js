@@ -78,6 +78,7 @@ export default class Item extends Component {
       localStorage.setItem('CarrinhoScriptsky', JSON.stringify([itens]))
     }
     
+    window.location.replace('/')
   }
 
   render(){
