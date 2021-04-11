@@ -131,6 +131,13 @@ export default class Carrinho extends Component {
      
   }
 
+  limpaCarrinho = () => {
+    //Remove todos os itens do carrinho 
+    localStorage.removeItem('CarrinhoScriptsky')
+    this.carrinho()
+    this.setState({ itens: [], display: 'none', alerta: <AlertSuccessPedidoMinino /> })
+  }
+
   finalizarPedido = () => {
   
     //Verifica se o valor total do pedido é maior ou igual ao pedido minimo da aplicacao
@@ -151,14 +158,16 @@ export default class Carrinho extends Component {
         );
         //Configura o objeto pedido
         const { cod_entidade } = jwt(localStorage.getItem('tokenScriptsky'))
-        
+        const { total, pagamento, retiradaLocal } = this.state
+
         const pedido = {
           cod_entidade: cod_entidade, 
-          valor_total: this.state.total, 
+          valor_total: total, 
           desconto: 0, 
-          valor_liquido: this.state.total, 
+          valor_liquido: total, 
           troco: 0, 
-          cod_parametro_forma_pagamento: this.state.pagamento,
+          cod_parametro_forma_pagamento: pagamento,
+          retirada_local: retiradaLocal,
           situacao: 0
         }
         //Insere pedido na base de dados
@@ -185,7 +194,7 @@ export default class Carrinho extends Component {
 
             //Insere itens na base de dados
             api.post('/criar-pedido-item', item).then(function (res) {
-              console.log(res.data)
+              console.log(res)
             }).catch(function (error) {
               console.log(error)
             });
@@ -193,17 +202,15 @@ export default class Carrinho extends Component {
           });
 
         }).catch(function (error) {
-          console.log(error);
+
+          console.log(error)
+          window.location.replace('/login')
+      
         });
-        
+
       }
-      /*
-      //Remove todos os itens do carrinho 
-      localStorage.removeItem('CarrinhoScriptsky')
-      this.carrinho()
-      this.setState({ itens: [], display: 'none', alerta: <AlertSuccessPedidoMinino /> })
-      */
-        
+
+      setTimeout(this.limpaCarrinho, 1500, 'funky');
 
     } else {
       if(this.state.alerta === '') {

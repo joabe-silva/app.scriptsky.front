@@ -50,11 +50,13 @@ export default function Header() {
       open={ isMenuOpen }
       onClose={ handleMenuClose }
     >
-      <MenuItem onClick={ handleMenuClose }>
+      <Link href="/login" color="inherit" style={{ textDecoration: 'none' }}>
+        <MenuItem onClick={ handleMenuClose }>
           <Typography color="primary" component="p">
             Entrar
           </Typography>
-      </MenuItem>
+        </MenuItem>
+      </Link>
       <MenuItem onClick={ handleMenuClose }>
           <Typography color="primary" component="p">
             Minha Conta
