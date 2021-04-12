@@ -137,7 +137,7 @@ export default class Carrinho extends Component {
     localStorage.removeItem('CarrinhoScriptsky')
     this.carrinho()
     this.setState({ itens: [], display: 'none', alerta: <AlertSuccessPedidoMinino /> })
-    
+
   }
 
   finalizarPedido = () => {
@@ -233,13 +233,19 @@ export default class Carrinho extends Component {
 
     return (
       
-      <div>      
-          <Link to={'/'}>
-            <Fab size="small" color="primary" aria-label="add">
-              <ArrowBack />
-            </Fab>
-          </Link>
-            
+      <div> 
+
+        <Link to={'/'}>
+          <Fab size="small" color="primary" aria-label="add">
+            <ArrowBack />
+          </Fab>
+        </Link>
+
+        <Typography color="primary" variant="h6" component="h2">
+          { mensagem }
+        </Typography>
+
+        <div style={{ display: display }} className="margin-top-itens">   
           <List className="list-itens"
             component="nav"
             aria-labelledby="list-subheader"
@@ -273,32 +279,27 @@ export default class Carrinho extends Component {
             }
           </List>
 
-          <Typography color="primary" variant="h6" component="h2">
-            { mensagem }
-          </Typography>
-
-          <div style={{ display: display }} className="margin-top-itens">
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={ retiradaLocal }
-                  onChange={ this.retiradaLocal }
-                  color="primary"
-                />
-              }
-              label="Retirada no local"
-            />
+          <FormControlLabel
+            control={
+              <Switch
+                checked={ retiradaLocal }
+                onChange={ this.retiradaLocal }
+                color="primary"
+              />
+            }
+            label="Retirada no local"
+          />
           
-            <Typography variant="h6" > Taxa de entrega: R$ { frete } </Typography>
-            <Typography variant="h6" > Total: R$ { total } </Typography>
+          <Typography variant="h6" > Taxa de entrega: R$ { frete } </Typography>
+          <Typography variant="h6" > Total: R$ { total } </Typography>
             
-            <br/>
-            <FormControl fullWidth>
-              <InputLabel>Forma de pagamento</InputLabel>
-              <Select
-                value={ pagamento }
-                onChange={ this.setFormaPagamento }
-              >
+          <br/>
+          <FormControl fullWidth>
+            <InputLabel>Forma de pagamento</InputLabel>
+            <Select
+              value={ pagamento }
+              onChange={ this.setFormaPagamento }
+            >
               {
                 formasPagamento.map(formasPagamento => (
                   <MenuItem value={ formasPagamento.cod_parametro_forma_pagamento } key={ formasPagamento.cod_parametro_forma_pagamento }>
@@ -306,18 +307,18 @@ export default class Carrinho extends Component {
                   </MenuItem>
                 ))
               }
-              </Select>
-            </FormControl>
-            <br/>
-            <br/>
+            </Select>
+          </FormControl>
+          <br/>
+          <br/>
 
-            <Button fullWidth variant="contained" color="primary" onClick={ this.finalizarPedido }>
-              Finalizar Pedido
-            </Button>
-          </div>
-          <div>
-            { alerta }
-          </div>
+          <Button fullWidth variant="contained" color="primary" onClick={ this.finalizarPedido }>
+            Finalizar Pedido
+          </Button>
+        </div>
+        
+        { alerta }
+        
       </div>
     
     )

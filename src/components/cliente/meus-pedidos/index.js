@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
-import { format } from 'date-fns-tz';
+import Fab from '@material-ui/core/Fab';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ArrowBack from '@material-ui/icons/ArrowBackIosRounded';
+import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import api from '../../../services/api';
 import jwt from 'jwt-decode';
@@ -13,6 +15,7 @@ export default class MeusPedidos extends Component {
 
   state = {
     pedidos: [],
+    mensagem: ''
   }
 
   async componentDidMount(){
@@ -37,25 +40,40 @@ export default class MeusPedidos extends Component {
 
       const result = await api.get('/pedidos-entidade/'+cod_entidade);
 
-      console.log(result)
-      //Verifica se o token é valido
-      if(result.data === 'Token invalido! Favor fazer login novamente.') {
-        window.location.replace('/login')
+      //Verifica se o usuario possui pedidos
+      if(result.data.length !== 0) {
+        //Verifica se o token é valido
+        if(result.data === 'Token invalido! Favor fazer login novamente.') {
+          window.location.replace('/login')
+        } else {
+          this.setState({ pedidos: result.data, mensagem: '' });
+        } 
       } else {
-        this.setState({ pedidos: result.data });
-      } 
-
+        this.setState({ mensagem: 'Você ainda não possui nenhum pedido!' });
+      }
+      
     }
 
   }
 
   render(){
 
-    const { pedidos } = this.state;
+    const { pedidos, mensagem } = this.state;
 
     return (
       
       <div>
+
+        <Link to={'/'}>
+          <Fab size="small" color="primary" aria-label="add">
+            <ArrowBack />
+          </Fab>
+        </Link>
+
+          <Typography color="primary" variant="h6" component="h2">
+            { mensagem }
+          </Typography>
+
           <List className="list">
             {
               pedidos.map(pedidos => (
@@ -65,17 +83,10 @@ export default class MeusPedidos extends Component {
                       <ListItemText 
                         className="titulo"
                         primary={`#${ pedidos.cod_pedido }`}
-                          
                       />
                       <ListItemText 
-                        {
-                          format(addedDate, 'dd/MM/YYYY HH:mm', {
-                            timeZone: 'America/Sao_Paulo',
-                          });
-                        }
-                        
                         primary={ pedidos.data_criacao }
-                        secondary={`Forma Pagamento: ${ pedidos.cod_parametro_forma_pagamento }`}
+                        secondary={`Forma de Pagamento: ${ pedidos.cod_parametro_forma_pagamento }`}
                       />
                       <ListItemText 
                         primary={`R$ ${ pedidos.valor_total }`}
