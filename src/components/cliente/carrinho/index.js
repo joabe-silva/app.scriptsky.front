@@ -21,6 +21,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import AlertSuccessPedidoMinino from '../alert-success-pedido-minino'
 import AlertErroPedidoMinino from '../alert-erro-pedido-minimo'
+import ImagemCarrinhoVazio from './carrinho-de-compras-vazio.png'
 import api from '../../../services/api'
 import jwt from 'jwt-decode';
 import './styles.css';
@@ -35,8 +36,8 @@ export default class Carrinho extends Component {
     formasPagamento: [],
     parametros: [],
     alerta: '',
-    mensagem: '',
-    display: '',
+    displayItens: 'none',
+    displayCarrinho: 'none',
     retiradaLocal: false,
     pagamento: 1,
     pedidoMinimo: 0,
@@ -67,13 +68,13 @@ export default class Carrinho extends Component {
           totalItens = parseFloat(totalItens) + parseFloat(itens.valor_total) 
         ))
         //Insere valor total + valor do frete no state
-        this.setState({ itens: itens, total: totalItens + parseFloat(this.state.frete) });
+        this.setState({ itens: itens, total: totalItens + parseFloat(this.state.frete), displayItens: '' });
        
       } else {
-        this.setState({ mensagem: 'Você ainda não possui itens em seu carrinho...', display: 'none' });
+        this.setState({ displayCarrinho: '', displayItens: 'none' });
       }
     } else {
-      this.setState({ mensagem: 'Você ainda não possui itens em seu carrinho...', display: 'none' });
+      this.setState({ displayCarrinho: '', displayItens: 'none' });
     }
 
   }
@@ -136,7 +137,7 @@ export default class Carrinho extends Component {
     //Remove todos os itens do carrinho 
     localStorage.removeItem('CarrinhoScriptsky')
     this.carrinho()
-    this.setState({ itens: [], display: 'none', alerta: <AlertSuccessPedidoMinino /> })
+    this.setState({ itens: [], displayCarrinho: '', displayItens: 'none', alerta: <AlertSuccessPedidoMinino /> })
 
   }
 
@@ -212,7 +213,7 @@ export default class Carrinho extends Component {
 
       }
 
-      setTimeout(this.limpaCarrinho, 1500, 'funky');
+      setTimeout(this.limpaCarrinho, 1000, 'funky');
 
     } else {
       if(this.state.alerta === '') {
@@ -229,7 +230,7 @@ export default class Carrinho extends Component {
 
   render(){
 
-    const { itens, alerta, mensagem, display, retiradaLocal, formasPagamento, pagamento, frete, total } = this.state;
+    const { itens, alerta, displayCarrinho, displayItens, retiradaLocal, formasPagamento, pagamento, frete, total } = this.state;
 
     return (
       
@@ -241,11 +242,11 @@ export default class Carrinho extends Component {
           </Fab>
         </Link>
 
-        <Typography color="primary" variant="h6" component="h2">
-          { mensagem }
-        </Typography>
-
-        <div style={{ display: display }} className="margin-top-itens">   
+        <div style={{ display: displayCarrinho }}>
+          <img src={ ImagemCarrinhoVazio } />
+        </div>
+        
+        <div style={{ display: displayItens }} className="margin-top-itens">   
           <List className="list-itens"
             component="nav"
             aria-labelledby="list-subheader"
