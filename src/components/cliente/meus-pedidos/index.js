@@ -82,14 +82,14 @@ export default class MeusPedidos extends Component {
                     <ListItem button className="itens">
                       <ListItemText 
                         className="titulo"
-                        primary={`#${ pedidos.cod_pedido }`}
+                        primary={`Pedido #${ pedidos.cod_pedido }`}
                       />
                       <ListItemText 
-                        primary={ pedidos.data_criacao }
-                        secondary={`Pagamento: ${ pedidos.cod_parametro_forma_pagamento }`}
+                        primary={`Data: ${ pedidos.data_criacao }`}
+                        secondary={`Pagamento: ${ pedidos.forma_pagamento }`}
                       />
                       <ListItemText 
-                        primary={`Total R$ ${ pedidos.valor_total }`}
+                        primary={`Total: R$ ${ pedidos.valor_total }`}
                         secondary={`Status: ${ pedidos.situacao }`}
                       />
                     </ListItem>
