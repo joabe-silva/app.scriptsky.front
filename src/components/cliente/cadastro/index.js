@@ -10,11 +10,25 @@ import AlertErroUsuarioSenha from '../alert-erro-usuario-senha';
 import AlertErroSenha from '../alert-erro-senha';
 import api from '../../../services/api';
 
-export default class Login extends Component {
+import MaskedInput from 'react-text-mask';
+import NumberFormat from 'react-number-format';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+
+export default class Cadastro extends Component {
 
     state = {
-        alerta: ''
+        alerta: '',
+        textmask: '( )    -    ',
+        numberformat: '1320',
+        values: '',
     }
+
+    handleChange = () => {
+        var contato = Document.getElementById('formatted-text-mask-input').values
+        this.setState({ values: contato })
+    };
     
     login = () => {
 
@@ -61,8 +75,27 @@ export default class Login extends Component {
                 <Card className="card">
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="h2">
-                            Login
+                            Cadastro
                         </Typography>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TextField type="text" id="nome" label="Nome e Sobrenome" fullWidth/>
+                            </Grid>
+                            <Grid item xs={12}>
+                                
+                            <FormControl>
+                                <InputLabel htmlFor="formatted-text-mask-input">react-text-mask</InputLabel>
+                                <Input
+                                    value={values.textmask}
+                                    onChange={handleChange}
+                                    name="textmask"
+                                    id="formatted-text-mask-input"
+                                    inputComponent={TextMaskCustom}
+                                />
+                            </FormControl>
+
+                            </Grid>
+                        </Grid> 
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField type="email" id="email" label="E-mail" fullWidth/>

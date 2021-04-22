@@ -10,6 +10,10 @@
 .imagemspc {
   width: 70px;
 }
+.imagem-sem-pedidos {
+  width: 50%;
+  margin-left: 25%;
+}
 .imagem {
   width: 100%;
 }

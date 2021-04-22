@@ -13,6 +13,10 @@
 .imagem {
   width: 100%;
 }
+.imagem-carrinho-vazio {
+  width: 50%;
+  margin-left: 25%;
+}
 .titulo {
   margin-left: 20px;
 }

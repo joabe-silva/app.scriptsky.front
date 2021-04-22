@@ -5,8 +5,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ArrowBack from '@material-ui/icons/ArrowBackIosRounded';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
+import ImagemSemPedidos from './sem-pedidos.png'
 import api from '../../../services/api';
 import jwt from 'jwt-decode';
 import './styles.css';
@@ -15,7 +15,6 @@ export default class MeusPedidos extends Component {
 
   state = {
     pedidos: [],
-    mensagem: ''
   }
 
   async componentDidMount(){
@@ -46,11 +45,9 @@ export default class MeusPedidos extends Component {
         if(result.data === 'Token invalido! Favor fazer login novamente.') {
           window.location.replace('/login')
         } else {
-          this.setState({ pedidos: result.data, mensagem: '' });
+          this.setState({ pedidos: result.data });
         } 
-      } else {
-        this.setState({ mensagem: 'Você ainda não possui nenhum pedido!' });
-      }
+      } 
       
     }
 
@@ -58,21 +55,21 @@ export default class MeusPedidos extends Component {
 
   render(){
 
-    const { pedidos, mensagem } = this.state;
+    const { pedidos } = this.state;
 
     return (
       
       <div>
 
-        <Link to={'/'}>
-          <Fab size="small" color="primary" aria-label="add">
-            <ArrowBack />
-          </Fab>
-        </Link>
+          <Link to={'/'}>
+            <Fab size="small" color="primary" aria-label="add">
+              <ArrowBack />
+            </Fab>
+          </Link>
 
-          <Typography color="primary" variant="h6" component="h2">
-            { mensagem }
-          </Typography>
+          <div>
+            <img src={ ImagemSemPedidos } className="imagem-sem-pedidos" />
+          </div>
 
           <List className="list">
             {
@@ -83,10 +80,7 @@ export default class MeusPedidos extends Component {
                       <ListItemText 
                         className="titulo"
                         primary={`Pedido #${ pedidos.cod_pedido }`}
-                      />
-                      <ListItemText 
-                        primary={`Data: ${ pedidos.data_criacao }`}
-                        secondary={`Pagamento: ${ pedidos.forma_pagamento }`}
+                        secondary={`Data: ${ pedidos.data_criacao }`}
                       />
                       <ListItemText 
                         primary={`Total: R$ ${ pedidos.valor_total }`}

@@ -10,8 +10,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCartRounded';
 import FastfoodIcon from '@material-ui/icons/FastfoodRounded';
-import Grupos from '../grupos';
+//import Grupos from '../grupos';
 import Link from '@material-ui/core/Link';
+import api from '../../../services/api'
 
 export default function Header() {
 
@@ -39,6 +40,32 @@ export default function Header() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const sair = () => {
+
+    //Configura token no cabecalho da requisicao
+    api.interceptors.request.use(
+      config => {
+          config.headers['x-access-token'] = localStorage.getItem('tokenScriptsky');
+          return config;
+      },
+      error => {
+          return Promise.reject(error);
+      }
+    );
+    //Inserindo token na blacklist
+    api.post('/logoff', localStorage.getItem('tokenScriptsky')).then(function (res) {
+      console.log(res)
+
+      localStorage.removeItem('tokenScriptsky')
+      handleMenuClose()
+      window.location.replace('/')
+
+    }).catch(function (error) {
+      console.log(error)
+    });
+
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -62,7 +89,7 @@ export default function Header() {
             Minha Conta
           </Typography>
       </MenuItem>
-      <MenuItem onClick={ handleMenuClose }>
+      <MenuItem onClick={ sair }>
         <Typography color="primary" component="p">
           Sair
         </Typography>
@@ -91,7 +118,7 @@ export default function Header() {
           </Typography>
         </MenuItem>
       </Link>
-      <Link href="#" color="inherit" style={{ textDecoration: 'none' }}>
+      <Link href="/meus-pedidos" color="inherit" style={{ textDecoration: 'none' }}>
         <MenuItem>
           <IconButton aria-label="WhatsApp" color="inherit">
             <FastfoodIcon color="primary" />
@@ -127,7 +154,7 @@ export default function Header() {
             </Link>
           </Typography>
           <div className={ classes.grow } />
-          <Grupos />
+          {/*<Grupos />*/}
           <IconButton
             aria-label="show more"
             aria-controls={ mobileMenuId }

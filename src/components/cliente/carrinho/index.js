@@ -21,7 +21,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import AlertSuccessPedidoMinino from '../alert-success-pedido-minino'
 import AlertErroPedidoMinino from '../alert-erro-pedido-minimo'
-import ImagemCarrinhoVazio from './carrinho-de-compras-vazio.png'
+import ImagemCarrinhoVazio from './carrinho-vazio.png'
 import api from '../../../services/api'
 import jwt from 'jwt-decode';
 import './styles.css';
@@ -243,7 +243,7 @@ export default class Carrinho extends Component {
         </Link>
 
         <div style={{ display: displayCarrinho }}>
-          <img src={ ImagemCarrinhoVazio } />
+          <img src={ ImagemCarrinhoVazio } className="imagem-carrinho-vazio" />
         </div>
         
         <div style={{ display: displayItens }} className="margin-top-itens">   
