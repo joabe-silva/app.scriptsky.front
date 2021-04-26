@@ -28,6 +28,7 @@ export default class Login extends Component {
             if(res.data === 'Usuario inexistente!') {
                 if(this.state.alerta !== '') {
                     this.setState({ alerta: '' })
+                    this.setState({ alerta: <AlertErroUsuarioSenha/> })
                 } else {
                     this.setState({ alerta: <AlertErroUsuarioSenha/> })
                 }
@@ -35,6 +36,7 @@ export default class Login extends Component {
                 if(res.data === 'Senha incorreta!') {
                     if(this.state.alerta !== '') {
                         this.setState({ alerta: '' })
+                        this.setState({ alerta: <AlertErroSenha/> })
                     } else {
                         this.setState({ alerta: <AlertErroSenha/> })
                     }
