@@ -85,9 +85,11 @@ export default function Header() {
         </MenuItem>
       </Link>
       <MenuItem onClick={ handleMenuClose }>
+        <Link href="/meu-perfil" color="inherit" style={{ textDecoration: 'none' }}>
           <Typography color="primary" component="p">
-            Minha Conta
+            Meu Perfil
           </Typography>
+        </Link>
       </MenuItem>
       <MenuItem onClick={ sair }>
         <Typography color="primary" component="p">

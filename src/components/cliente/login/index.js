@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
@@ -82,9 +83,11 @@ export default class Login extends Component {
                                 </Button>
                             </Grid>
                             <Grid item xs={12}>
-                                <Button variant="contained" color="primary" fullWidth>
-                                    Cadastro
-                                </Button>
+                                <Link to={'/cadastro-entidade'} style={{ textDecoration: 'none', color: 'black', }}>
+                                    <Button variant="contained" color="primary" fullWidth>
+                                        Cadastro
+                                    </Button>
+                                </Link>  
                             </Grid>
                         </Grid>
                     </CardActions>

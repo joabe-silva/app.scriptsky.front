@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Main from './components/cliente/main';
 import Item from './components/cliente/item';
 import Carrinho from './components/cliente/carrinho';
+import MeuPerfil from './components/cliente/meu-perfil';
 import MeusPedidos from './components/cliente/meus-pedidos';
 import CadastroEntidade from './components/cliente/cadastro-entidade';
 import CadastroEntidadeEndereco from './components/cliente/cadastro-entidade-endereco';
@@ -14,6 +15,7 @@ const Routes = () => (
             <Route exact path="/" component={ Main } />
             <Route path="/item/:cod_produto" component={ Item } />
             <Route path="/carrinho" component={ Carrinho } />
+            <Route path="/meu-perfil" component={ MeuPerfil } />
             <Route path="/meus-pedidos" component={ MeusPedidos } />
             <Route path="/cadastro-entidade" component={ CadastroEntidade } />
             <Route path="/cadastro-entidade-endereco" component={ CadastroEntidadeEndereco } />
