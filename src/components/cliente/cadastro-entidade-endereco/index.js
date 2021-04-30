@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import AlertErroPreenchaTodoFormulario from '../alert-erro-preencha-todo-formulario';
+import AlertSuccessCadastroEntidade from '../alert-success-cadastro-entidade';
 import api from '../../../services/api';
 import jwt from 'jwt-decode';
 
@@ -71,23 +72,41 @@ export default class CadastroEntidade extends Component {
                             }
                 
                         } else {
-                            console.log('Deu certo mano!')
-
+                            
                             const { cod_entidade } = jwt(localStorage.getItem('tokenScriptsky'))
+
+                            console.log(cod_entidade)
+
+                            const endereco = {
+                                cod_entidade: cod_entidade, 
+                                endereco:'Rua Santa Maria', 
+                                numero:430, 
+                                complemento:'AP 103', 
+                                bairro:'Pirrambu', 
+                                cep:'60311-020', 
+                                cidade:'', 
+                                estado:'' 
+                            }
+                  
+                            api.post('/cadastro-endereco-entidade', endereco).then(function (res) {
+                                console.log(res)
+                            }).catch(function (error) {
+                                console.log(error)
+                            });
+                            
+                            if(this.state.alerta !== '') {
+                                this.setState({ alerta: '' })
+                                window.location.replace('/')
+                            } else {
+                                this.setState({ alerta: <AlertSuccessCadastroEntidade /> })
+                                window.location.replace('/')
+                            }
 
                         }
                     }
                 }
             }
         }
-        /*
-        api.post('/cadastro-endereco-entidade', endereco).then(res => {
-            console.log(res)
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-        */
         
     }
 
@@ -104,20 +123,20 @@ export default class CadastroEntidade extends Component {
                             Endereço
                         </Typography>
                         <Grid container spacing={2}>
-                            <Grid item xs={10}>
+                            <Grid item xs={8}>
                                 <TextField type="text" id="endereco" label="Endereço" required fullWidth/>
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={4}>
                                 <TextField type="text" id="numero" label="Nº" required fullWidth/>
                             </Grid>
                             <Grid item xs={12}>
-                                <TextField type="text" id="complemento" label="Complemento" required fullWidth/>
+                                <TextField type="text" id="complemento" label="Complemento" fullWidth/>
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField type="text" id="bairro" label="Bairro" required fullWidth/>
                             </Grid>
                             <Grid item xs={12}>
-                                <TextField type="text" id="cep" label="Cep" required fullWidth/>
+                                <TextField type="text" id="cep" label="Cep" placeholder="99999-999" required fullWidth/>
                             </Grid>
                         </Grid>  
                     </CardContent>

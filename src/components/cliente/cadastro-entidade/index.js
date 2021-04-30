@@ -121,7 +121,7 @@ export default class CadastroEntidadeEndereco extends Component {
                                 <TextField type="text" id="nome" label="Nome" required fullWidth/>
                             </Grid>
                             <Grid item xs={12}>
-                                <TextField type="text" id="contato" label="Contato" required fullWidth/>
+                                <TextField type="text" id="contato" label="Contato" placeholder="(99)99999-9999" required fullWidth/>
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField type="email" id="email" label="E-mail" required fullWidth/>

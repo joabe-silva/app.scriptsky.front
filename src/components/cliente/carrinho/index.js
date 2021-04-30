@@ -213,7 +213,7 @@ export default class Carrinho extends Component {
 
       }
 
-      setTimeout(this.limpaCarrinho, 1000, 'funky');
+      setTimeout(this.limpaCarrinho, 1000, 'limpaCarrinho');
 
     } else {
       if(this.state.alerta === '') {
