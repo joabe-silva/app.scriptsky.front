@@ -8,6 +8,7 @@ import MeusPedidos from './components/cliente/meus-pedidos';
 import CadastroEntidade from './components/cliente/cadastro-entidade';
 import CadastroEntidadeEndereco from './components/cliente/cadastro-entidade-endereco';
 import EditarUsuario from './components/cliente/editar-usuario';
+import EditarEndereco from './components/cliente/editar-endereco';
 import Login from './components/cliente/login';
 
 const Routes = () => (
@@ -21,6 +22,7 @@ const Routes = () => (
             <Route path="/cadastro-entidade" component={ CadastroEntidade } />
             <Route path="/cadastro-entidade-endereco" component={ CadastroEntidadeEndereco } />
             <Route path="/editar-usuario" component={ EditarUsuario } />
+            <Route path="/editar-endereco" component={ EditarEndereco } />
             <Route path="/login" component={ Login } />
         </Switch>
     </BrowserRouter>

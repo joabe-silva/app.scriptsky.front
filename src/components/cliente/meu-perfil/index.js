@@ -36,7 +36,7 @@ export default class MeuPerfil extends Component {
               </ListItem>
             </Link>
             <Divider />
-            <Link to={`/editar-endereco`} style={{ textDecoration: 'none', }}>
+            <Link to={`/editar-endereco`} style={{ textDecoration: 'none', color: 'blue', }}>
               <ListItem button>
                 <ListItemIcon>
                   <Location color="primary" />
