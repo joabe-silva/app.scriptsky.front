@@ -17,10 +17,13 @@ import './styles.css';
 export default class EditarUsuario extends Component {
 
   state = {
-    nome: '',
-    contato: '',
-    email: '',
-    senha: '',
+    endereco: '',
+    numero: '',
+    complemento: '',
+    bairro: '',
+    cep: '',
+    cidade: '',
+    estado: '',
     alerta: '',
   }
 
@@ -44,7 +47,7 @@ export default class EditarUsuario extends Component {
 
       const { cod_entidade } = jwt(localStorage.getItem('tokenScriptsky'))
 
-      const result = await api.get('/entidade/'+cod_entidade);
+      const result = await api.get('/endereco-entidade/'+cod_entidade);
 
       //Verifica se o usuario possui pedidos
       if(result.data.length !== 0) {
@@ -52,7 +55,7 @@ export default class EditarUsuario extends Component {
         if(result.data === 'Token invalido! Favor fazer login novamente.') {
           window.location.replace('/login')
         } else {
-          this.setState({ nome: result.data[0].nome.trim(), contato: result.data[0].contato.trim(), email: result.data[0].email.trim(), senha: result.data[0].senha.trim()  });
+          this.setState({ endereco: result.data[0].endereco.trim(), numero: result.data[0].numero, complemento: result.data[0].complemento.trim(), bairro: result.data[0].bairro.trim(), cep: result.data[0].cep.trim() });
         } 
       } 
       
@@ -60,28 +63,34 @@ export default class EditarUsuario extends Component {
 
   }
 
-  onChangeNome = () => {
+  onChangeEndereco = () => {
 
-    const nome = document.getElementById('nome').value
-    this.setState({ nome: nome.trim() });
-
-  }
-  onChangeContato = () => {
-
-    const contato = document.getElementById('contato').value
-    this.setState({ contato: contato.trim() });
+    const endereco = document.getElementById('endereco').value
+    this.setState({ endereco: endereco });
 
   }
-  onChangeEmail = () => {
+  onChangeNumero = () => {
 
-    const email = document.getElementById('email').value
-    this.setState({ email: email.trim() });
+    const numero = document.getElementById('numero').value
+    this.setState({ numero: numero });
 
   }
-  onChangeSenha = () => {
+  onChangeComplemento = () => {
 
-    const senha = document.getElementById('senha').value
-    this.setState({ senha: senha.trim() });
+    const complemento = document.getElementById('complemento').value
+    this.setState({ complemento: complemento });
+
+  }
+  onChangeBairro = () => {
+
+    const bairro = document.getElementById('bairro').value
+    this.setState({ bairro: bairro });
+
+  }
+  onChangeCEP = () => {
+
+    const cep = document.getElementById('cep').value
+    this.setState({ cep: cep });
 
   }
 
@@ -89,16 +98,20 @@ export default class EditarUsuario extends Component {
 
     this.setState({ alerta: '' })
 
-    const nome    = document.getElementById('nome').value
-    const contato = document.getElementById('contato').value
-    const email   = document.getElementById('email').value
-    const senha   = document.getElementById('senha').value
+    const endereco    = document.getElementById('endereco').value
+    const numero      = document.getElementById('numero').value
+    const complemento = document.getElementById('complemento').value
+    const bairro      = document.getElementById('bairro').value
+    const cep         = document.getElementById('cep').value
 
-    const usuario = {
-      nome: nome,
-      contato: contato,
-      email: email,
-      senha: senha
+    const entidade_end = {
+      endereco: endereco,
+      numero: numero,
+      complemento: complemento,
+      bairro: bairro,
+      cep: cep,
+      cidade: this.state.cidade,
+      estado: this.state.estado,
     }
 
     api.interceptors.request.use(
@@ -113,8 +126,14 @@ export default class EditarUsuario extends Component {
     
     const { cod_entidade } = jwt(localStorage.getItem('tokenScriptsky'))
 
-    api.put('/editar-entidade-cliente/'+cod_entidade, usuario).then(function (res) {
-      console.log(res.data)
+    api.put('/editar-endereco-entidade/'+cod_entidade, entidade_end).then(function (res) {
+      
+      if(res.data === 'Token invalido! Favor fazer login novamente.') {
+        window.location.replace('/login')
+      } else {
+        console.log(res.data)
+      } 
+
     });
 
     if(this.state.alerta !== '') {
@@ -127,7 +146,7 @@ export default class EditarUsuario extends Component {
 
   render(){
 
-    const { nome, contato, email, senha, alerta } = this.state;
+    const { endereco, numero, complemento, bairro, cep, alerta } = this.state;
 
     return (
       
@@ -146,19 +165,19 @@ export default class EditarUsuario extends Component {
               </Typography>
               <Grid container spacing={2}>
                   <Grid item xs={8}>
-                    <TextField id="endereco" label="Endereco" value={ nome } onChange={ this.onChangeNome } required fullWidth/>
+                    <TextField id="endereco" label="Endereco" value={ endereco } onChange={ this.onChangeEndereco } required fullWidth/>
                   </Grid>
                   <Grid item xs={4}>
-                    <TextField id="numero" label="Numero" value={ contato } onChange={ this.onChangeContato } required fullWidth/>
+                    <TextField id="numero" label="Numero" value={ numero } onChange={ this.onChangeNumero } required fullWidth/>
                   </Grid>
                   <Grid item xs={12}>
-                    <TextField id="complemento" label="Complemento" value={ email } onChange={ this.onChangeEmail } required fullWidth/>
+                    <TextField id="complemento" label="Complemento" value={ complemento } onChange={ this.onChangeComplemento } required fullWidth/>
                   </Grid>
                   <Grid item xs={12}>
-                    <TextField id="bairro" label="Bairro" value={ senha } onChange={ this.onChangeSenha } required fullWidth/>
+                    <TextField id="bairro" label="Bairro" value={ bairro } onChange={ this.onChangeBairro } required fullWidth/>
                   </Grid>
                   <Grid item xs={12}>
-                    <TextField id="cep" label="CEP" value={ senha } onChange={ this.onChangeSenha } required fullWidth/>
+                    <TextField id="cep" label="CEP" value={ cep } onChange={ this.onChangeCEP } required fullWidth/>
                   </Grid>
               </Grid>  
             </CardContent>
