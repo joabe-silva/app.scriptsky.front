@@ -152,7 +152,7 @@ export default function Header() {
         <Toolbar>
           <Typography variant="h6" noWrap>
             <Link href={'/'} color="inherit" style={{ textDecoration: 'none' }}>
-              Scriptsky System 
+              O Boleiro 
             </Link>
           </Typography>
           <div className={ classes.grow } />
