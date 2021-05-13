@@ -25,7 +25,7 @@ export default class MeuPerfil extends Component {
           </Link>
 
           <List>
-            <Link to={`/editar-usuario`} style={{ textDecoration: 'none', color: 'blue', }}>
+            <Link to={`/editar-usuario`} style={{ textDecoration: 'none', color: 'black', }}>
               <ListItem button>
                 <ListItemIcon>
                   <Account color="primary" />
@@ -36,7 +36,7 @@ export default class MeuPerfil extends Component {
               </ListItem>
             </Link>
             <Divider />
-            <Link to={`/editar-endereco`} style={{ textDecoration: 'none', color: 'blue', }}>
+            <Link to={`/editar-endereco`} style={{ textDecoration: 'none', color: 'black', }}>
               <ListItem button>
                 <ListItemIcon>
                   <Location color="primary" />
