@@ -5,6 +5,7 @@ import Item from './components/cliente/item';
 import Carrinho from './components/cliente/carrinho';
 import MeuPerfil from './components/cliente/meu-perfil';
 import MeusPedidos from './components/cliente/meus-pedidos';
+import PedidoItens from './components/cliente/pedido-itens';
 import CadastroEntidade from './components/cliente/cadastro-entidade';
 import CadastroEntidadeEndereco from './components/cliente/cadastro-entidade-endereco';
 import EditarUsuario from './components/cliente/editar-usuario';
@@ -19,6 +20,7 @@ const Routes = () => (
             <Route path="/carrinho" component={ Carrinho } />
             <Route path="/meu-perfil" component={ MeuPerfil } />
             <Route path="/meus-pedidos" component={ MeusPedidos } />
+            <Route path="/pedido-itens/:cod_pedido" component={ PedidoItens } />
             <Route path="/cadastro-entidade" component={ CadastroEntidade } />
             <Route path="/cadastro-entidade-endereco" component={ CadastroEntidadeEndereco } />
             <Route path="/editar-usuario" component={ EditarUsuario } />

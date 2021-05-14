@@ -75,7 +75,7 @@ export default class MeusPedidos extends Component {
             {
               pedidos.map(pedidos => (
 
-                <Link to={`/item/${ pedidos.cod_pedido }`} key={ pedidos.cod_pedido } style={{ textDecoration: 'none', color: 'black', }}>
+                <Link to={`/pedido-itens/${ pedidos.cod_pedido }`} key={ pedidos.cod_pedido } style={{ textDecoration: 'none', color: 'black', }}>
                     <ListItem button className="itens">
                       <ListItemText 
                         className="titulo"

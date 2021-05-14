@@ -52,7 +52,7 @@ export default class EditarUsuario extends Component {
         if(result.data === 'Token invalido! Favor fazer login novamente.') {
           window.location.replace('/login')
         } else {
-          this.setState({ nome: result.data[0].nome.trim(), contato: result.data[0].contato.trim(), email: result.data[0].email.trim(), senha: result.data[0].senha.trim()  });
+          this.setState({ nome: result.data[0].nome.trim(), contato: result.data[0].contato.trim(), email: result.data[0].email.trim(), senha: result.data[0].senha.trim() });
         } 
       } 
       
@@ -63,25 +63,25 @@ export default class EditarUsuario extends Component {
   onChangeNome = () => {
 
     const nome = document.getElementById('nome').value
-    this.setState({ nome: nome.trim() });
+    this.setState({ nome: nome });
 
   }
   onChangeContato = () => {
 
     const contato = document.getElementById('contato').value
-    this.setState({ contato: contato.trim() });
+    this.setState({ contato: contato });
 
   }
   onChangeEmail = () => {
 
     const email = document.getElementById('email').value
-    this.setState({ email: email.trim() });
+    this.setState({ email: email });
 
   }
   onChangeSenha = () => {
 
     const senha = document.getElementById('senha').value
-    this.setState({ senha: senha.trim() });
+    this.setState({ senha: senha });
 
   }
 

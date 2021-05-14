@@ -66,32 +66,34 @@ export default class Banner extends Component {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <b>Detalhes da Loja</b>
+            <strong><i>Detalhes da Loja</i></strong>
           </AccordionSummary>
           <AccordionDetails>
             <div>
               <Grid item xs={12}>
-                <b>Pedido mínino: R$ { parametro.pedido_minimo_loja }</b>
+                <strong><i>- Pedido mínino: R$ { parametro.pedido_minimo_loja }</i></strong>
               </Grid>
               <Grid item xs={12}>
-                <b>Endereço: {`${ parametro.endereco_loja }, ${ parametro.numero_loja}` }</b>
+                <strong><i>- Endereço: {`${ parametro.endereco_loja }, ${ parametro.numero_loja}` }</i></strong>
               </Grid>
               <Grid item xs={12}>
-                <b>Horário: {`${ parametro.horario_ini_funcionamento_loja } a ${ parametro.horario_fim_funcionamento_loja }` }</b>
+                <strong><i>- Horário: {`${ parametro.horario_ini_funcionamento_loja } a ${ parametro.horario_fim_funcionamento_loja }` }</i></strong>
               </Grid>
               <Grid item xs={12}>
-                <b>Contato: { parametro.contato_loja }</b>
+                <strong><i>- Contato: { parametro.contato_loja }</i></strong>
               </Grid>
               <br/>
 
-              <FormLabel component="legend"><b>Funcionamos</b></FormLabel>
-              <FormControlLabel control={<Checkbox checked={ seg } />} label="Seg" />
-              <FormControlLabel control={<Checkbox checked={ ter } />} label="Ter" />
-              <FormControlLabel control={<Checkbox checked={ qua } />} label="Qua" />
-              <FormControlLabel control={<Checkbox checked={ qui } />} label="Qui" />
-              <FormControlLabel control={<Checkbox checked={ sex } />} label="Sex" />
-              <FormControlLabel control={<Checkbox checked={ sab } />} label="Sab" />
-              <FormControlLabel control={<Checkbox checked={ dom } />} label="Dom" />
+              <FormLabel component="legend">
+                <strong><i>Funcionamos</i></strong>
+              </FormLabel>
+              <FormControlLabel control={<Checkbox checked={ seg } />} label={<i>Seg</i>} />
+              <FormControlLabel control={<Checkbox checked={ ter } />} label={<i>Ter</i>} />
+              <FormControlLabel control={<Checkbox checked={ qua } />} label={<i>Qua</i>} />
+              <FormControlLabel control={<Checkbox checked={ qui } />} label={<i>Qui</i>} />
+              <FormControlLabel control={<Checkbox checked={ sex } />} label={<i>Sex</i>} />
+              <FormControlLabel control={<Checkbox checked={ sab } />} label={<i>Sab</i>} />
+              <FormControlLabel control={<Checkbox checked={ dom } />} label={<i>Dom</i>} />
             </div> 
           </AccordionDetails>
         </Accordion>

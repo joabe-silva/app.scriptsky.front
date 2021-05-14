@@ -119,21 +119,21 @@ export default class Item extends Component {
                 />  
               </Grid>
               <Grid item xs={12} className="actions">
-                <Button size="small" color="primary" onClick={ this.removerItem }>
+                <Button size="large" color="primary" onClick={ this.removerItem }>
                   <Remove />
                 </Button>
-                <Button id="quantidade" size="small" color="primary" value={quantidade}>
+                <Button id="quantidade" size="large" color="primary" value={quantidade}>
                   { quantidade }
                 </Button>
-                <Button size="small" color="primary" onClick={ this.adicionarItem }>
+                <Button size="large" color="primary" onClick={ this.adicionarItem }>
                   <Add />
                 </Button>
               </Grid>
               <Grid item xs={12} className="actions">
-                <Button size="small" color="primary" onClick={ this.adicionarItemCarrinho }>
+                <Button size="large" color="primary" onClick={ this.adicionarItemCarrinho }>
                   Adicionar
                 </Button>
-                <Button id="valorTotal" size="small" color="primary" value={ valorUnitario * quantidade }>
+                <Button id="valorTotal" size="large" color="primary" value={ valorUnitario * quantidade }>
                   R$ { valorUnitario * quantidade }
                 </Button>
               </Grid>
