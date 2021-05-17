@@ -16,15 +16,14 @@ import TextField from '@material-ui/core/TextField';
 import api from '../../../services/api';
 import './styles.css';
 
-const url_storage = 'https://firebasestorage.googleapis.com/v0/b/app-scriptsky.appspot.com/o/';
-const url_complet = '?alt=media';
-
 export default class Item extends Component {
 
   state = {
     item: [], 
     quantidade: 1,
     valorUnitario: 0,
+    url_storage: '',
+    url_complet: '',
   };
 
   async componentDidMount(){
@@ -33,7 +32,9 @@ export default class Item extends Component {
 
     const response = await api.get(`/produto/${ cod_produto }`);
 
-    this.setState({ item: response.data[0], valorUnitario: response.data[0].preco });
+    const parametro = await api.get('/parametro');
+
+    this.setState({ item: response.data[0], valorUnitario: response.data[0].preco, url_storage: parametro.data[0].url_storage.trim(), url_complet: parametro.data[0].url_complet.trim() });
 
   }
 
@@ -83,7 +84,7 @@ export default class Item extends Component {
 
   render(){
 
-    const { item, quantidade, valorUnitario } = this.state;
+    const { item, quantidade, valorUnitario, url_storage, url_complet } = this.state;
 
     return (
       <div>

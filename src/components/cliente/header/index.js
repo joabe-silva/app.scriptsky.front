@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -20,6 +20,9 @@ export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
+  const [parametro, setParametro] = React.useState({});
+
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -40,6 +43,17 @@ export default function Header() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  useEffect(() => {
+
+    const parametro = api.get('/parametro');
+
+    var p = Promise.resolve(parametro);
+    p.then(function(v) {
+      setParametro(v.data[0]);
+    });
+  
+  }, []);
+  
   const sair = () => {
 
     //Configura token no cabecalho da requisicao
@@ -151,8 +165,8 @@ export default function Header() {
       <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" noWrap>
-            <Link href={'/'} color="inherit" style={{ textDecoration: 'none' }}>
-              O Boleiro 
+            <Link href={'/'} color="inherit" style={{ textDecoration: 'none' }}> 
+              { parametro.titulo_loja }
             </Link>
           </Typography>
           <div className={ classes.grow } />

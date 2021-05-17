@@ -11,13 +11,12 @@ import api from '../../../services/api';
 import jwt from 'jwt-decode';
 import './styles.css';
 
-const url_storage = 'https://firebasestorage.googleapis.com/v0/b/app-scriptsky.appspot.com/o/';
-const url_complet = '?alt=media';
-
 export default class PedidoItens extends Component {
 
   state = {
     itens: [],
+    url_storage: '',
+    url_complet: '',
   }
 
   async componentDidMount(){
@@ -47,11 +46,13 @@ export default class PedidoItens extends Component {
       if(getPedido.data[0].cod_entidade === cod_entidade) {
 
         const result = await api.get(`/pedido-itens/${ cod_pedido }`);
+
+        const parametro = await api.get('/parametro');
   
         if(result.data === 'Token invalido! Favor fazer login novamente.') {
           window.location.replace('/login')
         } else {
-          this.setState({ itens: result.data.rows });
+          this.setState({ itens: result.data.rows, url_storage: parametro.data[0].url_storage.trim(), url_complet: parametro.data[0].url_complet.trim() });
         }
   
       } else {
@@ -65,7 +66,7 @@ export default class PedidoItens extends Component {
 
   render(){
 
-    const { itens } = this.state;
+    const { itens, url_storage, url_complet } = this.state;
 
     return (
       <div>

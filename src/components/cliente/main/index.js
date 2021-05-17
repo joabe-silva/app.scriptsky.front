@@ -9,25 +9,27 @@ import Banner from '../banner';
 import api from '../../../services/api';
 import './styles.css';
 
-const url_storage = 'https://firebasestorage.googleapis.com/v0/b/app-scriptsky.appspot.com/o/';
-const url_complet = '?alt=media';
-
 export default class Main extends Component {
 
   state = {
     itens: [],
+    url_storage: '',
+    url_complet: '',
   }
 
   async componentDidMount(){
 
     const result = await api.get('/produtos');
-    this.setState({ itens: result.data.rows });
+
+    const parametro = await api.get('/parametro');
+
+    this.setState({ itens: result.data.rows, url_storage: parametro.data[0].url_storage.trim(), url_complet: parametro.data[0].url_complet.trim() });
 
   }
 
   render(){
 
-    const { itens } = this.state;
+    const { itens, url_storage, url_complet } = this.state;
 
     return (
       
