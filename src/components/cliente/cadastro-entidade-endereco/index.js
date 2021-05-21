@@ -27,7 +27,9 @@ export default class CadastroEntidade extends Component {
             numero: document.getElementById('numero').value,
             completo: document.getElementById('complemento').value,
             bairro: document.getElementById('bairro').value,
-            cep: document.getElementById('cep').value
+            cep: document.getElementById('cep').value,
+            cidade:'', 
+	        estado:''
         }
         
         if(endereco.endereco === '') {
@@ -65,22 +67,19 @@ export default class CadastroEntidade extends Component {
                         } else {
                             this.setState({ alerta: <AlertErroPreenchaTodoFormulario /> })
                         }
-                        
+
                     } else {
                 
                         api.post('/cadastro-endereco-entidade', endereco).then(function (res) {
+
                             console.log(res)
+                            setTimeout(window.location.replace('/'), 1000, 'Redireciona');
+
                         }).catch(function (error) {
                             console.log(error)
                         });
 
-                        if(this.state.alerta !== '') {
-                            this.setState({ alerta: '' })
-                            window.location.replace('/')
-                        } else {
-                            this.setState({ alerta: <AlertSuccessCadastroEntidade /> })
-                            window.location.replace('/')
-                        }
+                        this.setState({ alerta: <AlertSuccessCadastroEntidade /> })
                         
                     }
                 }

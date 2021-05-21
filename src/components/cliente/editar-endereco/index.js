@@ -55,7 +55,12 @@ export default class EditarUsuario extends Component {
         if(result.data === 'Token invalido! Favor fazer login novamente.') {
           window.location.replace('/login')
         } else {
-          this.setState({ endereco: result.data[0].endereco.trim(), numero: result.data[0].numero, complemento: result.data[0].complemento.trim(), bairro: result.data[0].bairro.trim(), cep: result.data[0].cep.trim() });
+          if(!result.data[0].complemento) {
+            this.setState({ endereco: result.data[0].endereco.trim(), numero: result.data[0].numero, complemento: '', bairro: result.data[0].bairro.trim(), cep: result.data[0].cep.trim() });
+          } else {
+            this.setState({ endereco: result.data[0].endereco.trim(), numero: result.data[0].numero, complemento: result.data[0].complemento.trim(), bairro: result.data[0].bairro.trim(), cep: result.data[0].cep.trim() });
+          }
+          
         } 
       } 
       
