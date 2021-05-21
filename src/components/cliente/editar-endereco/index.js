@@ -171,7 +171,7 @@ export default class EditarUsuario extends Component {
                     <TextField id="numero" label="Numero" value={ numero } onChange={ this.onChangeNumero } required fullWidth/>
                   </Grid>
                   <Grid item xs={12}>
-                    <TextField id="complemento" label="Complemento" value={ complemento } onChange={ this.onChangeComplemento } required fullWidth/>
+                    <TextField id="complemento" label="Complemento" value={ complemento } onChange={ this.onChangeComplemento } fullWidth/>
                   </Grid>
                   <Grid item xs={12}>
                     <TextField id="bairro" label="Bairro" value={ bairro } onChange={ this.onChangeBairro } required fullWidth/>

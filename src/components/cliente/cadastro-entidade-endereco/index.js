@@ -19,7 +19,10 @@ export default class CadastroEntidade extends Component {
 
     cadastrar = () => {
 
+        const { cod_entidade } = jwt(localStorage.getItem('tokenScriptsky'))
+
         const endereco = {
+            cod_entidade: cod_entidade,
             endereco: document.getElementById('endereco').value,
             numero: document.getElementById('numero').value,
             completo: document.getElementById('complemento').value,
@@ -45,7 +48,8 @@ export default class CadastroEntidade extends Component {
                 }
     
             } else {
-                if(endereco.completo === '') {
+                
+                if(endereco.bairro === '') {
 
                     if(this.state.alerta !== '') {
                         this.setState({ alerta: '' })
@@ -54,55 +58,30 @@ export default class CadastroEntidade extends Component {
                     }
         
                 } else {
-                    if(endereco.bairro === '') {
+                    if(endereco.cep === '') {
 
                         if(this.state.alerta !== '') {
                             this.setState({ alerta: '' })
                         } else {
                             this.setState({ alerta: <AlertErroPreenchaTodoFormulario /> })
                         }
-            
+                        
                     } else {
-                        if(endereco.cep === '') {
-
-                            if(this.state.alerta !== '') {
-                                this.setState({ alerta: '' })
-                            } else {
-                                this.setState({ alerta: <AlertErroPreenchaTodoFormulario /> })
-                            }
                 
+                        api.post('/cadastro-endereco-entidade', endereco).then(function (res) {
+                            console.log(res)
+                        }).catch(function (error) {
+                            console.log(error)
+                        });
+
+                        if(this.state.alerta !== '') {
+                            this.setState({ alerta: '' })
+                            window.location.replace('/')
                         } else {
-                            
-                            const { cod_entidade } = jwt(localStorage.getItem('tokenScriptsky'))
-
-                            console.log(cod_entidade)
-
-                            const endereco = {
-                                cod_entidade: cod_entidade, 
-                                endereco:'Rua Santa Maria', 
-                                numero:430, 
-                                complemento:'AP 103', 
-                                bairro:'Pirrambu', 
-                                cep:'60311-020', 
-                                cidade:'', 
-                                estado:'' 
-                            }
-                  
-                            api.post('/cadastro-endereco-entidade', endereco).then(function (res) {
-                                console.log(res)
-                            }).catch(function (error) {
-                                console.log(error)
-                            });
-                            
-                            if(this.state.alerta !== '') {
-                                this.setState({ alerta: '' })
-                                window.location.replace('/')
-                            } else {
-                                this.setState({ alerta: <AlertSuccessCadastroEntidade /> })
-                                window.location.replace('/')
-                            }
-
+                            this.setState({ alerta: <AlertSuccessCadastroEntidade /> })
+                            window.location.replace('/')
                         }
+                        
                     }
                 }
             }
