@@ -33,7 +33,6 @@ export default class Banner extends Component {
   async componentDidMount(){
 
     const result = await api.get('/parametro');
-    
     this.setState({ 
 
       parametro: result.data[0], 
@@ -41,7 +40,7 @@ export default class Banner extends Component {
       url_complet: result.data[0].url_complet.trim(), 
       imagem_01_loja: result.data[0].imagem_01_loja.trim(), 
       imagem_02_loja: result.data[0].imagem_02_loja.trim() 
-
+      
     });
 
     if(result.data[0].funcionamento_semana_seg === 1) {
@@ -110,7 +109,7 @@ export default class Banner extends Component {
               <strong>Pedido mínino: R$ { parametro.pedido_minimo_loja }</strong>
             </Grid>
             <Grid item xs={6}>
-              <strong>Taxa entrega: R$ { parametro.frete }</strong>
+              <strong>Taxa de entrega: R$ { parametro.frete }</strong>
             </Grid>
           </AccordionSummary>
           <AccordionDetails>

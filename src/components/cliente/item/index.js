@@ -6,6 +6,8 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -94,7 +96,7 @@ export default class Item extends Component {
           </Fab>
         </Link>
         
-        <Card className="card">
+        <Card className="card" elevation={0}>
           <CardActionArea>
             <CardMedia>
               <img src={ url_storage+item.imagem+url_complet } alt={ item.titulo } className="imagem" />
@@ -130,17 +132,26 @@ export default class Item extends Component {
                   <Add />
                 </Button>
               </Grid>
-              <Grid item xs={12} className="actions">
-                <Button size="large" color="primary" onClick={ this.adicionarItemCarrinho }>
+            </Grid>
+          </CardActions>
+        </Card>
+
+        <AppBar position="fixed" style={{ top: 'auto', bottom: 0 }}>
+          <Toolbar>
+            <Grid container>
+              <Grid item xs={6} style={{ textAlign: 'left' }}>
+                <Button size="large" onClick={ this.adicionarItemCarrinho } style={{ color: 'white' }}>
                   Adicionar
                 </Button>
-                <Button id="valorTotal" size="large" color="primary" value={ valorUnitario * quantidade }>
+              </Grid>
+              <Grid item xs={6} style={{ textAlign: 'right' }}>
+                <Button id="valorTotal" size="large" value={ valorUnitario * quantidade } style={{ color: 'white' }}>
                   R$ { valorUnitario * quantidade }
                 </Button>
               </Grid>
             </Grid>
-          </CardActions>
-        </Card>
+          </Toolbar>
+        </AppBar>
       </div>
       
     )
