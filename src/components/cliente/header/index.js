@@ -10,7 +10,6 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCartRounded';
 import FastfoodIcon from '@material-ui/icons/FastfoodRounded';
-//import Grupos from '../grupos';
 import Link from '@material-ui/core/Link';
 import api from '../../../services/api'
 
@@ -170,7 +169,6 @@ export default function Header() {
             </Link>
           </Typography>
           <div className={ classes.grow } />
-          {/*<Grupos />*/}
           <IconButton
             aria-label="show more"
             aria-controls={ mobileMenuId }

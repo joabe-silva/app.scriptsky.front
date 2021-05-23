@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardMedia from '@material-ui/core/CardMedia';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -7,14 +9,18 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import api from '../../../services/api';
-import './styles.css';
 
 export default class Banner extends Component {
 
   state = {
     parametro: [],
+    url_storage: '',
+    url_complet: '',
+    imagem_01_loja: '',
+    imagem_02_loja: '',
     seg: '',
     ter: '',
     qua: '',
@@ -27,7 +33,16 @@ export default class Banner extends Component {
   async componentDidMount(){
 
     const result = await api.get('/parametro');
-    this.setState({ parametro: result.data[0] });
+    
+    this.setState({ 
+
+      parametro: result.data[0], 
+      url_storage: result.data[0].url_storage.trim(), 
+      url_complet: result.data[0].url_complet.trim(), 
+      imagem_01_loja: result.data[0].imagem_01_loja.trim(), 
+      imagem_02_loja: result.data[0].imagem_02_loja.trim() 
+
+    });
 
     if(result.data[0].funcionamento_semana_seg === 1) {
       this.setState({ seg: 'checked' });
@@ -55,28 +70,53 @@ export default class Banner extends Component {
 
   render(){
 
-    const { parametro, seg, ter, qua, qui, sex, sab, dom } = this.state;
+    const { 
+
+      parametro, 
+      imagem_01_loja, 
+      imagem_02_loja, 
+      url_storage, 
+      url_complet, 
+      seg, 
+      ter, 
+      qua, 
+      qui, 
+      sex, 
+      sab, 
+      dom 
+    
+    } = this.state;
 
     return (
       
       <Card elevation={3}>
-        <Accordion elevation={0}>
+        <CardActionArea>
+          <CardMedia
+            image={ url_storage+imagem_02_loja+url_complet }
+            style={{ height: 140 }}
+          >
+            <Avatar 
+              src={ url_storage+imagem_01_loja+url_complet } 
+              style={{ width: 80, height: 80, margin: 'auto', top: 50 }}
+            />
+          </CardMedia>
+        </CardActionArea>
+
+        <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
           >
             <Grid item xs={6}>
               <strong>Pedido mínino: R$ { parametro.pedido_minimo_loja }</strong>
             </Grid>
             <Grid item xs={6}>
-              <strong>Taxa de entrega: R$ { parametro.frete }</strong>
+              <strong>Taxa entrega: R$ { parametro.frete }</strong>
             </Grid>
           </AccordionSummary>
           <AccordionDetails>
             <div>
               <Grid item xs={12}>
-                <strong>Endereço: {`${ parametro.endereco_loja }, ${ parametro.numero_loja}` }</strong>
+                <strong>Endereço: {`${ parametro.endereco_loja }, ${ parametro.numero_loja }` }</strong>
               </Grid>
               <Grid item xs={12}>
                 <strong>Horário: {`${ parametro.horario_ini_funcionamento_loja } a ${ parametro.horario_fim_funcionamento_loja }` }</strong>
