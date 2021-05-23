@@ -88,12 +88,11 @@ export default class PedidoItens extends Component {
                       <ListItemText 
                           className="titulo"
                           primary={ itens.titulo }
-                          secondary={`${ itens.quantidade }X R$ ${ itens.preco }`}
+                          secondary={`${ itens.quantidade }X Total R$ ${ itens.valor_total }`}
                       />
                       <ListItemText 
                         className="titulo"
-                        primary={`Total R$ ${ itens.valor_total }`}
-                        secondary={`Obs: ${ itens.observacao }`}
+                        primary={`Obs: ${ itens.observacao }`}
                       />
                     </ListItem>
                     <Divider />

@@ -21,13 +21,9 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import AlertSuccessPedidoMinino from '../alert-success-pedido-minino'
 import AlertErroPedidoMinino from '../alert-erro-pedido-minimo'
-import ImagemCarrinhoVazio from './carrinho.png'
 import api from '../../../services/api'
 import jwt from 'jwt-decode';
 import './styles.css';
-
-const url_storage = 'https://firebasestorage.googleapis.com/v0/b/app-scriptsky.appspot.com/o/';
-const url_complet = '?alt=media';
 
 export default class Carrinho extends Component {
 
@@ -35,9 +31,10 @@ export default class Carrinho extends Component {
     itens: [],
     formasPagamento: [],
     parametros: [],
+    url_storage: '',
+    url_complet: '',
     alerta: '',
     displayItens: 'none',
-    displayCarrinho: 'none',
     retiradaLocal: false,
     pagamento: 1,
     pedidoMinimo: 0,
@@ -55,7 +52,7 @@ export default class Carrinho extends Component {
   async carrinho() {
 
     const parametros = await api.get('/parametro');
-    this.setState({ frete: parametros.data[0].frete, parametros: parametros.data[0], pedidoMinimo: parametros.data[0].pedido_minimo_loja });
+    this.setState({ url_storage: parametros.data[0].url_storage.trim(), url_complet: parametros.data[0].url_complet.trim(), frete: parametros.data[0].frete, parametros: parametros.data[0], pedidoMinimo: parametros.data[0].pedido_minimo_loja });
     
     //Verificar se existe itens no carrinho no LocalStorage
     const itens = JSON.parse(localStorage.getItem('CarrinhoScriptsky'))
@@ -68,13 +65,15 @@ export default class Carrinho extends Component {
           totalItens = parseFloat(totalItens) + parseFloat(itens.valor_total) 
         ))
         //Insere valor total + valor do frete no state
-        this.setState({ itens: itens, total: totalItens + parseFloat(this.state.frete), displayItens: '' });
+        this.setState({ itens: itens, total: (totalItens + parseFloat(this.state.frete)).toFixed(2), displayItens: '' });
        
       } else {
-        this.setState({ displayCarrinho: '', displayItens: 'none' });
+        this.setState({ displayItens: 'none' });
+        window.location.replace('/')
       }
     } else {
-      this.setState({ displayCarrinho: '', displayItens: 'none' });
+      this.setState({ displayItens: 'none' });
+      window.location.replace('/')
     }
 
   }
@@ -120,13 +119,19 @@ export default class Carrinho extends Component {
   retiradaLocal = () => {
 
     if(this.state.retiradaLocal === true) {
-      this.setState({ retiradaLocal: false, frete: this.state.parametros.frete, total: this.state.total + this.state.parametros.frete }) 
+
+      let total = parseFloat((this.state.total + this.state.parametros.frete).toFixed(2))
+      this.setState({ retiradaLocal: false, frete: this.state.parametros.frete, total: total }) 
+
     } 
     if(this.state.retiradaLocal === false) { 
       if(this.state.total <= this.state.frete) {
         this.setState({ retiradaLocal: true, frete: 0})
       } else {
-        this.setState({ retiradaLocal: true, frete: 0, total: this.state.total - this.state.parametros.frete })
+
+        let total = parseFloat((this.state.total - this.state.parametros.frete).toFixed(2))
+        this.setState({ retiradaLocal: true, frete: 0, total: total })
+        
       }
     }
      
@@ -137,7 +142,7 @@ export default class Carrinho extends Component {
     //Remove todos os itens do carrinho 
     localStorage.removeItem('CarrinhoScriptsky')
     this.carrinho()
-    this.setState({ itens: [], displayCarrinho: '', displayItens: 'none', alerta: <AlertSuccessPedidoMinino /> })
+    this.setState({ itens: [], displayItens: 'none', alerta: <AlertSuccessPedidoMinino /> })
 
   }
 
@@ -230,7 +235,18 @@ export default class Carrinho extends Component {
 
   render(){
 
-    const { itens, alerta, displayCarrinho, displayItens, retiradaLocal, formasPagamento, pagamento, frete, total } = this.state;
+    const { 
+      itens, 
+      url_storage, 
+      url_complet, 
+      alerta, 
+      displayItens, 
+      retiradaLocal, 
+      formasPagamento, 
+      pagamento, 
+      frete, 
+      total 
+    } = this.state;
 
     return (
       
@@ -241,10 +257,6 @@ export default class Carrinho extends Component {
             <ArrowBack />
           </Fab>
         </Link>
-
-        <div style={{ display: displayCarrinho }}>
-          <img src={ ImagemCarrinhoVazio } className="imagem-carrinho-vazio" />
-        </div>
         
         <div style={{ display: displayItens }} className="margin-top-itens">   
           <List className="list-itens"
