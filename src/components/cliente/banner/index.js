@@ -105,15 +105,17 @@ export default class Banner extends Component {
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
           >
-            <Grid item xs={6}>
-              <strong>Pedido mínino: R$ { parametro.pedido_minimo_loja }</strong>
-            </Grid>
-            <Grid item xs={6}>
-              <strong>Taxa de entrega: R$ { parametro.frete }</strong>
+            <Grid container>
+              <Grid item sm={6} xs={12}>
+                <strong>Pedido mínino: R$ { parametro.pedido_minimo_loja }</strong>
+              </Grid>
+              <Grid item sm={6} xs={12}>
+                <strong>Taxa de entrega: R$ { parametro.frete }</strong>
+              </Grid>
             </Grid>
           </AccordionSummary>
           <AccordionDetails>
-            <div>
+            <Grid container spacing={1}>
               <Grid item xs={12}>
                 <strong>Endereço: {`${ parametro.endereco_loja }, ${ parametro.numero_loja }` }</strong>
               </Grid>
@@ -123,19 +125,19 @@ export default class Banner extends Component {
               <Grid item xs={12}>
                 <strong>Contato: { parametro.contato_loja }</strong>
               </Grid>
-              <br/>
-
-              <FormLabel component="legend">
-                <strong>Funcionamos</strong>
-              </FormLabel>
-              <FormControlLabel control={<Checkbox checked={ seg } />} label="Seg" />
-              <FormControlLabel control={<Checkbox checked={ ter } />} label="Ter" />
-              <FormControlLabel control={<Checkbox checked={ qua } />} label="Qua" />
-              <FormControlLabel control={<Checkbox checked={ qui } />} label="Qui" />
-              <FormControlLabel control={<Checkbox checked={ sex } />} label="Sex" />
-              <FormControlLabel control={<Checkbox checked={ sab } />} label="Sab" />
-              <FormControlLabel control={<Checkbox checked={ dom } />} label="Dom" />
-            </div> 
+              <Grid item xs={12}>
+                <FormLabel component="legend">
+                  <strong>Funcionamos</strong>
+                </FormLabel>
+                <FormControlLabel control={<Checkbox checked={ seg } />} label="Seg" />
+                <FormControlLabel control={<Checkbox checked={ ter } />} label="Ter" />
+                <FormControlLabel control={<Checkbox checked={ qua } />} label="Qua" />
+                <FormControlLabel control={<Checkbox checked={ qui } />} label="Qui" />
+                <FormControlLabel control={<Checkbox checked={ sex } />} label="Sex" />
+                <FormControlLabel control={<Checkbox checked={ sab } />} label="Sab" />
+                <FormControlLabel control={<Checkbox checked={ dom } />} label="Dom" />
+              </Grid>
+            </Grid> 
           </AccordionDetails>
         </Accordion>
       </Card>

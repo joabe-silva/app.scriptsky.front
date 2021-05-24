@@ -44,7 +44,7 @@ export default class Main extends Component {
                 <Link to={`/item/${ itens.cod_produto }`} key={ itens.cod_produto } style={{ textDecoration: 'none', color: 'black', }}>
                     <ListItem button className="itens">
                       <ListItemIcon className="imagemspc">
-                          <img src={`${ url_storage }${ itens.imagem }${ url_complet }`} alt={ itens.titulo } className="imagem" />
+                        <img id={ itens.cod_produto_grupo } src={`${ url_storage }${ itens.imagem }${ url_complet }`} alt={ itens.titulo } className="imagem" />
                       </ListItemIcon>
                       <ListItemText 
                           className="titulo"
