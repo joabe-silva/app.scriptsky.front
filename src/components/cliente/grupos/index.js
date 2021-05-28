@@ -1,42 +1,76 @@
-import React, { useEffect } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import api from '../../../services/api'
+import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import Divider from '@material-ui/core/Divider';
+import Arrow from '@material-ui/icons/ArrowForwardIosRounded';
+import api from '../../../services/api';
+import './styles.css';
 
-export default function Grupos() {
-  
-  const [grupos: [], setGrupos] = React.useState({});
+export default class Grupos extends Component {
 
-  useEffect(() => {
+  state = {
+    grupos: [],
+    url_storage: '',
+    url_complet: '',
+  }
 
-    const grupos = api.get('/grupos');
+  async componentDidMount(){
 
-    var g = Promise.resolve(grupos);
-    g.then(function(v) {
-      setGrupos(v.data);
-      console.log(v.data)
-    });
-  
-  }, []);
+    const result = await api.get('/grupos');
 
-  return (
-    <AppBar position="fixed" color="primary">
-      <Tabs
-        value={0}
-        indicatorColor="primary"
-        variant="scrollable"
-        scrollButtons="auto"
+    const parametro = await api.get('/parametro');
+
+    this.setState({ grupos: result.data.rows, url_storage: parametro.data[0].url_storage.trim(), url_complet: parametro.data[0].url_complet.trim() });
+
+  }
+
+  render(){
+
+    const { grupos, url_storage, url_complet } = this.state;
+
+    return (
+
+      <List
+        className="list" 
+        subheader={
+          <ListSubheader component="div">
+            Categorias
+          </ListSubheader>
+        }
       >
-        {/*
+        {
           grupos.map(grupos => (
-            <a href="#6" style={{ textDecoration: 'none', color: 'white', }}>
-              <Tab label={ grupos.descricao }/>
-            </a>
+
+            <Link 
+              to={`/itens/${ grupos.cod_produto_grupo }`} 
+              key={ grupos.ccod_produto_grupo } 
+              style={{ textDecoration: 'none', color: 'black', }}
+            >
+                <ListItem button className="itens">
+                  <ListItemIcon className="imagemspc">
+                    <img id={ grupos.cod_produto_grupo } src={`${ url_storage }${ grupos.imagem }${ url_complet }`} alt={ grupos.titulo } className="imagem" />
+                  </ListItemIcon>
+                  <ListItemText 
+                    className="titulo"
+                    primary={ grupos.titulo }
+                    secondary={ grupos.descricao }
+                  />
+                  <ListItemIcon>
+                    <Arrow />
+                  </ListItemIcon>
+                </ListItem>
+                <Divider />
+            </Link>
+
           ))
-          */}
-        
-      </Tabs>
-    </AppBar>
-  );
+        }
+      </List>
+    )
+
+  }
+  
 }
