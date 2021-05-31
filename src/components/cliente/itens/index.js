@@ -15,23 +15,24 @@ export default class Itens extends Component {
 
   state = {
     itens: [],
-    url_storage: '',
-    url_complet: '',
+    parametro: [],
   }
 
   async componentDidMount(){
 
-    const result = await api.get('/produtos');
+    const { cod_produto_grupo } = this.props.match.params;
+
+    const produtos = await api.get('/produtos-grupo/'+cod_produto_grupo);
 
     const parametro = await api.get('/parametro');
 
-    this.setState({ itens: result.data.rows, url_storage: parametro.data[0].url_storage.trim(), url_complet: parametro.data[0].url_complet.trim() });
+    this.setState({ itens: produtos.data.rows, parametro: parametro.data[0] });
 
   }
 
   render(){
 
-    const { itens, url_storage, url_complet } = this.state;
+    const { itens, parametro } = this.state;
 
     return (
       
@@ -53,7 +54,7 @@ export default class Itens extends Component {
               >
                 <ListItem button className="itens">
                   <ListItemIcon className="imagemspc">
-                    <img id={ itens.cod_produto_grupo } src={`${ url_storage }${ itens.imagem }${ url_complet }`} alt={ itens.titulo } className="imagem" />
+                    <img src={`${ parametro.url_storage }${ itens.imagem }${ parametro.url_complet }`} alt={ itens.titulo } className="imagem" />
                   </ListItemIcon>
                   <ListItemText 
                       className="titulo"

@@ -68,7 +68,7 @@ export default class MeusPedidos extends Component {
           </Link>
 
           <div>
-            <img src={ ImagemSemPedidos } className="imagem-sem-pedidos" />
+            <img src={ ImagemSemPedidos } alt="Meus Pedidos" className="imagem-sem-pedidos" />
           </div>
 
           <List className="list">

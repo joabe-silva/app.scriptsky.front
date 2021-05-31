@@ -14,8 +14,7 @@ export default class Grupos extends Component {
 
   state = {
     grupos: [],
-    url_storage: '',
-    url_complet: '',
+    parametro: [],
   }
 
   async componentDidMount(){
@@ -24,13 +23,13 @@ export default class Grupos extends Component {
 
     const parametro = await api.get('/parametro');
 
-    this.setState({ grupos: result.data.rows, url_storage: parametro.data[0].url_storage.trim(), url_complet: parametro.data[0].url_complet.trim() });
+    this.setState({ grupos: result.data.rows, parametro: parametro.data[0] });
 
   }
 
   render(){
 
-    const { grupos, url_storage, url_complet } = this.state;
+    const { grupos, parametro } = this.state;
 
     return (
 
@@ -47,12 +46,12 @@ export default class Grupos extends Component {
 
             <Link 
               to={`/itens/${ grupos.cod_produto_grupo }`} 
-              key={ grupos.ccod_produto_grupo } 
-              style={{ textDecoration: 'none', color: 'black', }}
+              key={ grupos.cod_produto_grupo } 
+              style={{ textDecoration: 'none', color: 'black' }}
             >
                 <ListItem button className="itens">
                   <ListItemIcon className="imagemspc">
-                    <img id={ grupos.cod_produto_grupo } src={`${ url_storage }${ grupos.imagem }${ url_complet }`} alt={ grupos.titulo } className="imagem" />
+                    <img src={`${ parametro.url_storage }${ grupos.imagem }${ parametro.url_complet }`} alt={ grupos.titulo } className="imagem" />
                   </ListItemIcon>
                   <ListItemText 
                     className="titulo"

@@ -22,10 +22,9 @@ export default class Item extends Component {
 
   state = {
     item: [], 
+    parametro: [],
     quantidade: 1,
     valorUnitario: 0,
-    url_storage: '',
-    url_complet: '',
   };
 
   async componentDidMount(){
@@ -36,7 +35,7 @@ export default class Item extends Component {
 
     const parametro = await api.get('/parametro');
 
-    this.setState({ item: response.data[0], valorUnitario: response.data[0].preco, url_storage: parametro.data[0].url_storage.trim(), url_complet: parametro.data[0].url_complet.trim() });
+    this.setState({ item: response.data[0], valorUnitario: response.data[0].preco, parametro: parametro.data[0] });
 
   }
 
@@ -81,12 +80,12 @@ export default class Item extends Component {
       localStorage.setItem('CarrinhoScriptsky', JSON.stringify([itens]))
     }
     
-    window.location.replace('/')
+    window.history.back()
   }
 
   render(){
 
-    const { item, quantidade, valorUnitario, url_storage, url_complet } = this.state;
+    const { item, parametro, quantidade, valorUnitario } = this.state;
 
     return (
       <div>
@@ -99,7 +98,7 @@ export default class Item extends Component {
         <Card className="card" elevation={0}>
           <CardActionArea>
             <CardMedia>
-              <img src={ url_storage+item.imagem+url_complet } alt={ item.titulo } className="imagem" />
+              <img src={ parametro.url_storage+item.imagem+parametro.url_complet } alt={ item.titulo } className="imagem" />
             </CardMedia>
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
@@ -145,8 +144,8 @@ export default class Item extends Component {
                 </Button>
               </Grid>
               <Grid item xs={6} style={{ textAlign: 'right' }}>
-                <Button id="valorTotal" size="large" value={ valorUnitario * quantidade } style={{ color: 'white' }}>
-                  R$ { valorUnitario * quantidade }
+                <Button id="valorTotal" size="large" value={ parseFloat(valorUnitario * quantidade).toFixed(2) } style={{ color: 'white' }}>
+                  R$ { parseFloat(valorUnitario * quantidade).toFixed(2) }
                 </Button>
               </Grid>
             </Grid>

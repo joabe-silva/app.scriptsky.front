@@ -17,52 +17,40 @@ export default class Banner extends Component {
 
   state = {
     parametro: [],
-    url_storage: '',
-    url_complet: '',
-    imagem_01_loja: '',
-    imagem_02_loja: '',
-    seg: '',
-    ter: '',
-    qua: '',
-    qui: '',
-    sex: '',
-    sab: '',
-    dom: '', 
+    seg: false,
+    ter: false,
+    qua: false,
+    qui: false,
+    sex: false,
+    sab: false,
+    dom: false, 
   }
 
   async componentDidMount(){
 
     const result = await api.get('/parametro');
-    this.setState({ 
-
-      parametro: result.data[0], 
-      url_storage: result.data[0].url_storage.trim(), 
-      url_complet: result.data[0].url_complet.trim(), 
-      imagem_01_loja: result.data[0].imagem_01_loja.trim(), 
-      imagem_02_loja: result.data[0].imagem_02_loja.trim() 
-      
-    });
+    this.setState({ parametro: result.data[0] });
 
     if(result.data[0].funcionamento_semana_seg === 1) {
-      this.setState({ seg: 'checked' });
+      this.setState({ seg: true });
     }
     if(result.data[0].funcionamento_semana_ter === 1) {
-      this.setState({ ter: 'checked' });
+      this.setState({ ter: true });
     }
     if(result.data[0].funcionamento_semana_qua === 1) {
-      this.setState({ qua: 'checked' });
+      this.setState({ qua: true });
     }
     if(result.data[0].funcionamento_semana_qui === 1) {
-      this.setState({ qui: 'checked' });
+      this.setState({ qui: true });
     }
     if(result.data[0].funcionamento_semana_sex === 1) {
-      this.setState({ sex: 'checked' });
+      this.setState({ sex: true });
     }
     if(result.data[0].funcionamento_semana_sab === 1) {
-      this.setState({ sab: 'checked' });
+      this.setState({ sab: true });
     }
     if(result.data[0].funcionamento_semana_dom === 1) {
-      this.setState({ dom: 'checked' });
+      this.setState({ dom: true });
     }
 
   }
@@ -72,10 +60,6 @@ export default class Banner extends Component {
     const { 
 
       parametro, 
-      imagem_01_loja, 
-      imagem_02_loja, 
-      url_storage, 
-      url_complet, 
       seg, 
       ter, 
       qua, 
@@ -91,11 +75,11 @@ export default class Banner extends Component {
       <Card elevation={3}>
         <CardActionArea>
           <CardMedia
-            image={ url_storage+imagem_02_loja+url_complet }
+            image={`${ parametro.url_storage+parametro.imagem_02_loja+parametro.url_complet }`}
             style={{ height: 140 }}
           >
             <Avatar 
-              src={ url_storage+imagem_01_loja+url_complet } 
+              src={`${ parametro.url_storage+parametro.imagem_01_loja+parametro.url_complet }`} 
               style={{ width: 80, height: 80, margin: 'auto', top: 50 }}
             />
           </CardMedia>
