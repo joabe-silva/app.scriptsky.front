@@ -22,7 +22,7 @@ export default class Itens extends Component {
 
     const { cod_produto_grupo } = this.props.match.params;
 
-    const produtos = await api.get('/produtos-grupo/'+cod_produto_grupo);
+    const produtos = await api.get(`/produtos-grupo/${ cod_produto_grupo }?situacao=${ 0 }`);
 
     const parametro = await api.get('/parametro');
 
