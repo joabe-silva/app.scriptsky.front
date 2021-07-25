@@ -21,9 +21,7 @@ export default class Itens extends Component {
   async componentDidMount(){
 
     const { cod_produto_grupo } = this.props.match.params;
-
     const produtos = await api.get(`/produtos-grupo/${ cod_produto_grupo }?situacao=${ 0 }`);
-
     const parametro = await api.get('/parametro');
 
     this.setState({ itens: produtos.data.rows, parametro: parametro.data[0] });

@@ -45,7 +45,7 @@ export default class Grupos extends Component {
           grupos.map(grupos => (
 
             <Link 
-              to={`/itens/${ grupos.cod_produto_grupo }`} 
+              to={`/itens/${ grupos.cod_produto_grupo }?situacao=${ 0 }`} 
               key={ grupos.cod_produto_grupo } 
               style={{ textDecoration: 'none', color: 'black' }}
             >

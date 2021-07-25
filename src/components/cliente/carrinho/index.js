@@ -176,6 +176,7 @@ export default class Carrinho extends Component {
           troco: 0, 
           cod_parametro_forma_pagamento: pagamento,
           retirada_local: retiradaLocal,
+          observacao: '',
           situacao: 0
         }
         //Insere pedido na base de dados
